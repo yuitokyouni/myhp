@@ -27,7 +27,7 @@
   }
   apply(initial);
 
-  var button = document.getElementById("lang-toggle");
+  var button = document.getElementById("lang");
   if (button) {
     button.addEventListener("click", function () {
       var next = root.getAttribute("lang") === "ja" ? "en" : "ja";
