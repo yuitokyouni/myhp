@@ -7,14 +7,6 @@
   var KEY = "lang";
   var root = document.documentElement;
   var button = document.getElementById("lang");
-  var titles = {
-    ja: "長谷川結音 | 研究・学歴",
-    en: "Yuito Hasegawa | Research & Education"
-  };
-  var descriptions = {
-    ja: "長谷川結音の研究・学歴。ペロブスカイト太陽電池の卒業研究、東京大学での学歴、モデリング・プログラミングのスキル。",
-    en: "Research and education of Yuito Hasegawa: undergraduate work on perovskite solar cells, education at the University of Tokyo, and modeling and programming skills."
-  };
 
   function supported(lang) {
     return lang === "ja" || lang === "en";
@@ -30,12 +22,22 @@
 
   function apply(lang) {
     root.setAttribute("lang", lang);
-    document.title = titles[lang];
+    var title = document.querySelector('title[data-ja]');
+    if (title) document.title = title.getAttribute("data-" + lang);
     var description = document.querySelector('meta[name="description"]');
-    if (description) description.setAttribute("content", descriptions[lang]);
+    if (description && description.hasAttribute("data-" + lang)) {
+      description.setAttribute("content", description.getAttribute("data-" + lang));
+    }
     if (button) button.setAttribute("aria-label", lang === "ja" ? "Switch to English" : "日本語に切り替える");
     Array.prototype.forEach.call(document.querySelectorAll("[data-label-ja]"), function (el) {
       el.setAttribute("aria-label", el.getAttribute("data-label-" + lang));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("a[data-page-link]"), function (el) {
+      var path = el.getAttribute("data-page-link") || el.getAttribute("href");
+      el.setAttribute("data-page-link", path);
+      var target = new URL(path, location.href);
+      target.searchParams.set("lang", lang);
+      el.href = target.href;
     });
   }
 
@@ -53,6 +55,11 @@
       var next = root.getAttribute("lang") === "ja" ? "en" : "ja";
       apply(next);
       remember(next);
+      try {
+        var current = new URL(location.href);
+        current.searchParams.set("lang", next);
+        history.replaceState(null, "", current.href);
+      } catch (e) { /* Local file previews may not allow history changes. */ }
     });
   }
 
@@ -60,4 +67,11 @@
   Array.prototype.forEach.call(document.querySelectorAll(".year"), function (el) {
     el.textContent = year;
   });
+
+  // Keep previously shared homepage section URLs useful after the split.
+  if (document.body.hasAttribute("data-home")) {
+    var legacyPages = { "#research": "research.html", "#education": "education.html", "#skills": "skills.html" };
+    var legacy = legacyPages[location.hash];
+    if (legacy) location.replace(legacy + "?lang=" + initial);
+  }
 })();

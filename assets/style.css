@@ -53,6 +53,7 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
 .site-header nav { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; margin-left: auto; }
 .site-header nav a { display: inline-block; padding: .5rem 0; font-size: .875rem; text-decoration: none; }
 .site-header nav a:hover { text-decoration: underline; }
+.site-header nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .5rem; }
 #lang { flex-shrink: 0; min-height: 2.75rem; padding: .4rem .75rem; color: var(--link); background: transparent; border: 1px solid var(--line); font: inherit; font-size: .875rem; cursor: pointer; }
 #lang:hover { border-color: var(--link); }
 .profile-layout { display: grid; grid-template-columns: minmax(0, 18rem) minmax(0, 1fr); gap: 4rem; padding: 3.25rem 0 4rem; }
@@ -65,6 +66,19 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
 .profile-links a { display: inline-block; padding: .25rem 0; }
 .profile-links .muted { font-size: .875rem; }
 main { min-width: 0; }
+.page-content { max-width: 64rem; padding-block: 3rem 4.5rem; }
+.page-heading { margin-bottom: 2.75rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
+.eyebrow { margin-bottom: .65rem; color: var(--muted); font-size: .875rem; }
+.reading-width { max-width: 48rem; }
+.text-link { display: inline-block; margin-top: .25rem; }
+.inline-links { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; }
+.question-list { margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.question-list article { padding-left: 1.25rem; border-left: 2px solid var(--line); }
+.question-list article p:last-child { margin-bottom: 0; }
+.project-entry { margin-top: 2rem; }
+.project-entry + .project-entry { padding-top: 1.75rem; border-top: 1px solid var(--line); }
+.project-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1.5rem; margin-bottom: .5rem; }
+.detail-list { padding-left: 1.25rem; margin: 0 0 1rem; }
 .content-section + .content-section { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
 .content-section > :last-child { margin-bottom: 0; }
 .entry-meta { margin: 0 0 .5rem; font-size: .875rem; line-height: 1.75; }
@@ -95,6 +109,9 @@ main { min-width: 0; }
   .profile-layout { grid-template-columns: 1fr; gap: 2.25rem; padding: 2rem 0 3rem; }
   .profile { padding: 0 0 2rem; border-right: 0; border-bottom: 1px solid var(--line); }
   .profile-section { margin-top: 1.5rem; }
+  .page-content { padding-block: 2rem 3rem; }
+  .page-heading { margin-bottom: 2rem; padding-bottom: 1.5rem; }
+  .question-list { grid-template-columns: 1fr; gap: 1.5rem; }
   .content-section + .content-section { margin-top: 2rem; padding-top: 1.75rem; }
 }
 @media (prefers-color-scheme: dark) {
@@ -107,6 +124,8 @@ main { min-width: 0; }
   .page-shell { max-width: none; padding-inline: 0; }
   .site-header, .skip-link { display: none; }
   .profile-layout { display: block; padding: 0; }
+  .page-content { padding-block: 0; }
+  .page-heading { margin-bottom: 1rem; padding-bottom: 1rem; }
   .profile { padding: 0 0 1rem; margin-bottom: 1rem; border-right: 0; border-bottom: 1px solid var(--line); }
   h1 { font-size: 21pt; }
   h2 { font-size: 14pt; margin-bottom: .65rem; }

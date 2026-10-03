@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title data-ja="YH001 · Cont–Bouchaud | ABM learning notes" data-en="YH001 · Cont–Bouchaud | ABM learning notes">YH001 · Cont–Bouchaud | ABM learning notes</title>
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../assets/style.css?v=20261004">
+<link rel="stylesheet" href="style.css">
+<script src="../assets/main.js?v=20261004-2" defer></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+<a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en" lang="en">Skip to content</span></a>
+<header class="site-header"><div class="header-inner page-shell">
+  <img class="site-logo" src="../assets/utokyo-logo.jpg" alt="東京大学 / The University of Tokyo" width="1500" height="1638">
+  <nav aria-label="サイト内ナビゲーション" data-label-ja="サイト内ナビゲーション" data-label-en="Site navigation"><a data-page-link href="../index.html"><span class="ja">ホーム</span><span class="en" lang="en">Home</span></a><a data-page-link href="../research.html"><span class="ja">研究</span><span class="en" lang="en">Research</span></a><a data-page-link href="../education.html"><span class="ja">学歴</span><span class="en" lang="en">Education</span></a><a data-page-link href="../skills.html"><span class="ja">スキル</span><span class="en" lang="en">Skills</span></a></nav>
+  <button id="lang" type="button" hidden aria-label="Switch to English"><span class="ja">English</span><span class="en" lang="en">日本語</span></button>
+</div></header>
+<main id="main" class="page-shell abm-page legacy-demo" lang="ja" tabindex="-1">
+  <header class="page">
+    <div class="crumb"><a data-page-link href="index.html">← playground 一覧</a></div>
+    <h1>YH001 · Cont-Bouchaud (1997) Percolation</h1>
+    <div class="paper">Herd behavior and aggregate fluctuations in financial markets — <i>Macroeconomic Dynamics</i> 4(2) · 実装: <code>models/YH001/model.py</code></div>
+  </header>
+
+  <p class="lead">エージェントがランダムにつながり、クラスタ単位で買い・売り・待機を選びます。連結度 c を変えて、価格変化の分布とクラスタサイズを比較します。</p>
+
+  <p class="language-note"><span class="ja">この実験の操作画面は日本語です。結果は実行後に表示されます。</span><span class="en" lang="en">This experiment is presented in Japanese. Results appear after you run it.</span></p><noscript><p class="banner warn">シミュレーションには JavaScript が必要です。説明はそのまま読めます。</p></noscript>
+<div id="proto-banner" class="banner warn hidden"></div>
+  <div class="banner info">最初の実行では実行環境を読み込みます。計算量を増やすと、実行中に画面の反応が遅くなることがあります。まず小さい設定で試してください。</div>
+
+  <div class="layout">
+    <aside class="panel controls">
+      <h2>パラメータ</h2>
+      <div id="controls"></div>
+      <button class="run" id="runBtn">▶ シミュレーション実行</button>
+      <button class="ghost" id="sweepBtn">kurtosis vs c をスキャン (軽量)</button>
+      <div class="status idle" id="status" role="status" aria-live="polite"><span class="dot"></span>待機中</div>
+    </aside>
+
+    <section class="simulation-results" aria-label="シミュレーション結果">
+      <div class="metrics" id="metrics"></div>
+      <div class="plots">
+        <div class="plot full"><div class="cap">リターン時系列 Δx(t)</div><div id="p_series" style="height:300px"></div></div>
+        <div class="plot"><div class="cap">リターン分布 vs 同分散ガウス (片対数)</div><div id="p_dist" style="height:330px"></div></div>
+        <div class="plot"><div class="cap">クラスタサイズ分布 (log-log)</div><div id="p_cluster" style="height:330px"></div></div>
+        <div class="plot full" id="sweepWrap" style="display:none"><div class="cap">excess kurtosis vs c</div><div id="p_sweep" style="height:330px"></div></div>
+      </div>
+      <details class="notes"><summary>モデルの読み方と出典</summary><p>新しいランダムグラフを作り、つながったクラスタごとに買い・売り・待機を決めます。注文の合計 D から価格変化 Δx = D/λ を求めます。</p><p>連結度を変え、クラスタの大きさと価格変化の分布が一緒にどう変わるかを比較してください。図の破線は W^(−5/2) の参照線です。有限サイズの単一試行から指数の一致を断定することはできません。</p><p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info/experiments/YH001">元のモデル・参考文献</a> · <a href="LICENSE">MIT license</a></p></details>
+    </section>
+  </div>
+</main>
+<footer class="site-footer page-shell"><p><span class="ja">金融 ABM 学習ノート · 長谷川結音</span><span class="en" lang="en">Financial ABM learning notes · Yuito Hasegawa</span></p><p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info"><span class="ja">元の学習リポジトリ</span><span class="en" lang="en">Original learning repository</span></a> · <a href="LICENSE">MIT license</a></p></footer>
+<script src="assets/runner.js"></script>
+<script>
+const C = SGP.COLORS;
+const SPECS = [
+  { id: "N", label: "エージェント数 N", type: "range", min: 200, max: 5000, step: 100, value: 1500, hint: "大きいほど分布が綺麗だが重い" },
+  { id: "c", label: "連結度 c", type: "range", min: 0.1, max: 1.05, step: 0.05, value: 0.9, hint: "1.0 がパーコレーション閾値" },
+  { id: "a", label: "取引確率 a", type: "range", min: 0.005, max: 0.2, step: 0.005, value: 0.05 },
+  { id: "T", label: "ステップ数 T", type: "range", min: 300, max: 5000, step: 100, value: 1500 },
+  { id: "seed", label: "seed", type: "number", min: 0, max: 99999, step: 1, value: 42 },
+];
+SGP.buildControls("controls", SPECS);
+SGP.fileProtocolBanner();
+
+const FILES = [{ url: "models/YH001/model.py", name: "model.py" }];
+
+const DRIVER = `
+import json, numpy as np, sf
+from model import simulate
+P = json.loads(PARAMS_JSON)
+res = simulate(N=int(P['N']), c=float(P['c']), a=float(P['a']), lam=1.0,
+               T=int(P['T']), seed=int(P['seed']), report_every=0)
+ret = res['returns']; sizes = res['cluster_sizes'].astype(np.intp)  # intp: bincount needs platform int (int32 on wasm)
+std = float(ret.std()) or 1.0
+sidx, sser = sf.downsample(ret[:min(len(ret),5000)], 4000)
+centers, dens = sf.hist_density(ret, -6*std, 6*std, 120)
+grid = np.linspace(-6*std, 6*std, 300)
+gp = sf.gaussian_pdf(grid, float(ret.mean()), std)
+sc = np.bincount(sizes)[1:]
+rng = np.arange(1, len(sc)+1); nz = sc > 0
+prob = sc[nz] / sc[nz].sum()
+# theory line W^-2.5 anchored at first point
+xs = rng[nz].astype(float); th = xs**(-2.5); th = th / th[0] * prob[0]
+RESULT = json.dumps({
+  'kurt': sf.excess_kurtosis(ret),
+  'maxsize': int(sizes.max()), 'std': std,
+  'series_x': sidx, 'series_y': sser,
+  'dist_x': centers.tolist(), 'dist_y': dens.tolist(),
+  'g_x': grid.tolist(), 'g_y': gp.tolist(),
+  'cl_x': xs.tolist(), 'cl_y': prob.tolist(),
+  'th_x': xs.tolist(), 'th_y': th.tolist(),
+})
+`;
+
+function draw(d) {
+  SGP.setMetrics("metrics", [
+    { k: "excess kurtosis", v: SGP.format(d.kurt, 2), good: d.kurt > 1 },
+    { k: "max cluster", v: d.maxsize },
+    { k: "std(Δx)", v: SGP.format(d.std, 3, true) },
+  ]);
+  SGP.plot("p_series", [
+    { x: d.series_x, y: d.series_y, type: "scattergl", mode: "lines", line: { color: C.black, width: 0.6 }, name: "Δx(t)" },
+  ], SGP.baseLayout("", { showlegend: false, xaxis: { title: "t" }, yaxis: { title: "Δx" } }));
+
+  SGP.plot("p_dist", [
+    { x: d.dist_x, y: d.dist_y, type: "bar", marker: { color: "rgba(91,156,255,.55)" }, name: "Simulation" },
+    { x: d.g_x, y: d.g_y, type: "scatter", mode: "lines", line: { color: C.ref, width: 2 }, name: "Gaussian" },
+  ], SGP.baseLayout("", { yaxis: { type: "log", title: "density (log)" }, xaxis: { title: "Δx" }, bargap: 0 }));
+
+  SGP.plot("p_cluster", [
+    { x: d.cl_x, y: d.cl_y, type: "scattergl", mode: "markers", marker: { color: C.sim, size: 4 }, name: "P(W)" },
+    { x: d.th_x, y: d.th_y, type: "scatter", mode: "lines", line: { color: C.ref, width: 1.5, dash: "dash" }, name: "W^(-5/2)" },
+  ], SGP.baseLayout("", { xaxis: { type: "log", title: "cluster size W" }, yaxis: { type: "log", title: "P(W)" } }));
+}
+
+async function run() {
+  const btn = document.getElementById("runBtn");
+  SGP.setBusy(true);
+  try {
+    await SGP.boot({ packages: ["numpy", "scipy"] });
+    await SGP.loadSources(FILES);
+    const p = SGP.readControls(SPECS);
+    SGP.status(`実行中… (N=${p.N}, T=${p.T})`, "busy");
+    const t0 = performance.now();
+    const d = await SGP.runDriver(DRIVER, p);
+    draw(d);
+    SGP.status(`完了 (${((performance.now() - t0) / 1000).toFixed(1)}s)`, "ok");
+  } catch (e) {
+    console.error(e);
+    SGP.status("エラー: " + e.message, "err");
+  } finally {
+    SGP.setBusy(false);
+  }
+}
+
+async function sweep() {
+  const btn = document.getElementById("sweepBtn");
+  SGP.setBusy(true);
+  try {
+    await SGP.boot({ packages: ["numpy", "scipy"] });
+    await SGP.loadSources(FILES);
+    const p = SGP.readControls(SPECS);
+    SGP.status("c-sweep 実行中…", "busy");
+    const driver = `
+import json, numpy as np, sf
+from model import simulate
+P = json.loads(PARAMS_JSON)
+cs = [0.5,0.7,0.8,0.9,0.95,0.99,1.0]
+ks = []
+for c in cs:
+    r = simulate(N=int(P['N']), c=float(c), a=float(P['a']), lam=1.0, T=min(int(P['T']),2500), seed=int(P['seed']), report_every=0)['returns']
+    ks.append(sf.excess_kurtosis(r))
+RESULT = json.dumps({'cs': cs, 'ks': ks})
+`;
+    const d = await SGP.runDriver(driver, p);
+    document.getElementById("sweepWrap").style.display = "block";
+    SGP.plot("p_sweep", [
+      { x: d.cs, y: d.ks, type: "scatter", mode: "lines+markers", line: { color: C.sim, width: 2 }, marker: { size: 8 }, name: "excess kurtosis" },
+      { x: d.cs, y: d.cs.map(() => 0), type: "scatter", mode: "lines", line: { color: C.ref, dash: "dash", width: 1 }, name: "Gaussian (0)" },
+    ], SGP.baseLayout("", { xaxis: { title: "c" }, yaxis: { title: "excess kurtosis" } }));
+    SGP.status("c-sweep 完了", "ok");
+  } catch (e) {
+    console.error(e);
+    SGP.status("エラー: " + e.message, "err");
+  } finally {
+    SGP.setBusy(false);
+  }
+}
+
+document.getElementById("runBtn").addEventListener("click", run);
+document.getElementById("sweepBtn").addEventListener("click", sweep);
+</script>
+</body>
+</html>
+

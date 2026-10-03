@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title data-ja="YH005 · Speculation Game | ABM learning notes" data-en="YH005 · Speculation Game | ABM learning notes">YH005 · Speculation Game | ABM learning notes</title>
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../assets/style.css?v=20261004">
+<link rel="stylesheet" href="style.css">
+<script src="../assets/main.js?v=20261004-2" defer></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+<a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en" lang="en">Skip to content</span></a>
+<header class="site-header"><div class="header-inner page-shell">
+  <img class="site-logo" src="../assets/utokyo-logo.jpg" alt="東京大学 / The University of Tokyo" width="1500" height="1638">
+  <nav aria-label="サイト内ナビゲーション" data-label-ja="サイト内ナビゲーション" data-label-en="Site navigation"><a data-page-link href="../index.html"><span class="ja">ホーム</span><span class="en" lang="en">Home</span></a><a data-page-link href="../research.html"><span class="ja">研究</span><span class="en" lang="en">Research</span></a><a data-page-link href="../education.html"><span class="ja">学歴</span><span class="en" lang="en">Education</span></a><a data-page-link href="../skills.html"><span class="ja">スキル</span><span class="en" lang="en">Skills</span></a></nav>
+  <button id="lang" type="button" hidden aria-label="Switch to English"><span class="ja">English</span><span class="en" lang="en">日本語</span></button>
+</div></header>
+<main id="main" class="page-shell abm-page legacy-demo" lang="ja" tabindex="-1">
+  <header class="page">
+    <div class="crumb"><a data-page-link href="index.html">← playground 一覧</a></div>
+    <h1>YH005 · Speculation Game</h1>
+    <div class="paper">Katahira &amp; Chen (2019) · arXiv:1909.03185 · 実装: <code>models/YH005/simulate.py</code> (+ history.py)</div>
+  </header>
+
+  <p class="lead">粗く認識した価格履歴を使い、ポジションを開いてから閉じるまでを一組として売買します。認知、往復売買、富の変化を含むモデルを動かし、履歴や意思決定をランダム化した条件と比較します。</p>
+
+  <p class="language-note"><span class="ja">この実験の操作画面は日本語です。結果は実行後に表示されます。</span><span class="en" lang="en">This experiment is presented in Japanese. Results appear after you run it.</span></p><noscript><p class="banner warn">シミュレーションには JavaScript が必要です。説明はそのまま読めます。</p></noscript>
+<div id="proto-banner" class="banner warn hidden"></div>
+  <div class="banner info">最初の実行では実行環境を読み込みます。計算量を増やすと、実行中に画面の反応が遅くなることがあります。まず小さい設定で試してください。</div>
+
+  <div class="layout">
+    <aside class="panel controls">
+      <h2>パラメータ</h2>
+      <div id="controls"></div>
+      <button class="run" id="runBtn">▶ シミュレーション実行</button>
+      <div class="status idle" id="status" role="status" aria-live="polite"><span class="dot"></span>待機中</div>
+    </aside>
+
+    <section class="simulation-results" aria-label="シミュレーション結果">
+      <div class="metrics" id="metrics"></div>
+      <div class="plots">
+        <div class="plot full"><div class="cap">価格 p(t)</div><div id="p_price" style="height:240px"></div></div>
+        <div class="plot full"><div class="cap">リターン Δp(t)</div><div id="p_ret" style="height:240px"></div></div>
+        <div class="plot"><div class="cap">|Δp| の自己相関 (log-log) — clustering の指標</div><div id="p_volacf" style="height:300px"></div></div>
+        <div class="plot"><div class="cap">CCDF P(|Δp|>x) (log-log) — heavy tail</div><div id="p_ccdf" style="height:300px"></div></div>
+        <div class="plot full"><div class="cap">窓集計 kurtosis vs 窓幅 — aggregational Gaussianity</div><div id="p_kurt" style="height:280px"></div></div>
+      </div>
+      <details class="notes"><summary>モデルの読み方と出典</summary><table><thead><tr><th scope="col">比較条件</th><th scope="col">変更するもの</th></tr></thead><tbody><tr><td>baseline</td><td>元の履歴と戦略を使う</td></tr><tr><td>Null A</td><td>履歴を各ステップでランダム化する</td></tr><tr><td>Null B</td><td>戦略に基づく意思決定をランダムな売買に置き換える</td></tr></tbody></table><p>同じ条件で比較し、自己相関や分布がどう変わるかを確認してください。認知価格の変化は −2, −1, 0, +1, +2 の五段階です。単一試行だけで特定の仕組みの寄与を確定することはできません。</p><p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info/experiments/YH005">元のモデル・参考文献</a> · <a href="LICENSE">MIT license</a></p></details>
+    </section>
+  </div>
+</main>
+<footer class="site-footer page-shell"><p><span class="ja">金融 ABM 学習ノート · 長谷川結音</span><span class="en" lang="en">Financial ABM learning notes · Yuito Hasegawa</span></p><p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info"><span class="ja">元の学習リポジトリ</span><span class="en" lang="en">Original learning repository</span></a> · <a href="LICENSE">MIT license</a></p></footer>
+<script src="assets/runner.js"></script>
+<script>
+const C = SGP.COLORS;
+const SPECS = [
+  { id: "mode", label: "mode (Null test)", type: "select", value: "baseline", options: [
+    { value: "baseline", label: "baseline (SG)" }, { value: "nullA", label: "Null A: 履歴ランダム" }, { value: "nullB", label: "Null B: 売買ランダム" } ] },
+  { id: "N", label: "エージェント数 N", type: "range", min: 100, max: 1000, step: 50, value: 400 },
+  { id: "M", label: "記憶長 M", type: "range", min: 2, max: 5, step: 1, value: 4, hint: "履歴空間 = 5^M" },
+  { id: "S", label: "戦略数 S", type: "range", min: 1, max: 4, step: 1, value: 2 },
+  { id: "T", label: "ステップ T", type: "range", min: 1000, max: 8000, step: 500, value: 2500, hint: "大きいほど tail/ACF が安定だが重い" },
+  { id: "C", label: "認知閾値 C", type: "range", min: 0.5, max: 8, step: 0.5, value: 3 },
+  { id: "B", label: "注文単位 B", type: "range", min: 3, max: 20, step: 1, value: 9 },
+  { id: "seed", label: "seed", type: "number", min: 0, max: 99999, step: 1, value: 777 },
+];
+SGP.buildControls("controls", SPECS);
+SGP.fileProtocolBanner();
+
+const FILES = [
+  { url: "models/YH005/history.py", name: "history.py" },
+  { url: "models/YH005/simulate.py", name: "simulate.py" },
+];
+
+const DRIVER = `
+import json, numpy as np, sf
+from simulate import simulate
+P = json.loads(PARAMS_JSON)
+hm, dm = 'endogenous', 'strategy'
+if P['mode'] == 'nullA': hm = 'exogenous'
+if P['mode'] == 'nullB': dm = 'random'
+res = simulate(N=int(P['N']), M=int(P['M']), S=int(P['S']), T=int(P['T']),
+               B=int(P['B']), C=float(P['C']), seed=int(P['seed']),
+               history_mode=hm, decision_mode=dm)
+prices = res['prices']; r = np.diff(prices)
+std = float(r.std()) or 1e-12
+pix, pser = sf.downsample(prices, 4000)
+rix, rser = sf.downsample(r, 4000)
+ml = 200
+va = sf.acf(np.abs(r), ml)
+va_lag = list(range(1, ml+1))
+va_pos = [(l, v) for l, v in zip(va_lag, va) if v > 0]
+cx, cy = sf.ccdf(r, scale_only=True)
+# subsample ccdf
+ci, _ = sf.downsample(np.arange(cx.size), 3000)
+cx = cx[ci]; cy = cy[ci]
+def kw(x, w):
+    x = x[~np.isnan(x)]
+    if w > 1:
+        n = (len(x)//w)*w; x = x[:n].reshape(-1, w).sum(axis=1)
+    return sf.excess_kurtosis(x)
+wins = [1, 4, 16, 64, 256, 640]
+kurts = [kw(r, w) for w in wins]
+RESULT = json.dumps({
+  'std': std, 'hill': sf.hill_alpha(r), 'vol1': va[0], 'vol50': va[49], 'kurt1': kurts[0],
+  'nsub': int(res['num_substitutions']), 'nrt': int(res['round_trips']['agent_idx'].size),
+  'price_x': pix, 'price_y': pser, 'ret_x': rix, 'ret_y': rser,
+  'va_x': [a for a,_ in va_pos], 'va_y': [b for _,b in va_pos],
+  'ccdf_x': cx.tolist(), 'ccdf_y': cy.tolist(),
+  'wins': wins, 'kurts': kurts,
+})
+`;
+
+function draw(d) {
+  SGP.setMetrics("metrics", [
+    { k: "std(Δp)", v: SGP.format(d.std, 3, true) },
+    { k: "Hill α", v: Number.isFinite(d.hill) ? SGP.format(d.hill, 2) : "—", good: d.hill >= 3 && d.hill <= 5 },
+    { k: "|Δp| ACF τ=1", v: SGP.format(d.vol1, 3), good: d.vol1 > 0.1 },
+    { k: "|Δp| ACF τ=50", v: SGP.format(d.vol50, 3) },
+    { k: "kurt (w=1)", v: SGP.format(d.kurt1, 2), good: d.kurt1 > 1 },
+    { k: "round-trips", v: d.nrt.toLocaleString() },
+  ]);
+  SGP.plot("p_price", [{ x: d.price_x, y: d.price_y, type: "scattergl", mode: "lines", line: { color: C.g1, width: 0.8 } }],
+    SGP.baseLayout("", { showlegend: false, xaxis: { title: "t" }, yaxis: { title: "p(t)" } }));
+  SGP.plot("p_ret", [{ x: d.ret_x, y: d.ret_y, type: "scattergl", mode: "lines", line: { color: C.black, width: 0.6 } }],
+    SGP.baseLayout("", { showlegend: false, xaxis: { title: "t" }, yaxis: { title: "Δp(t)" } }));
+  SGP.plot("p_volacf", [{ x: d.va_x, y: d.va_y, type: "scattergl", mode: "markers", marker: { color: C.sim, size: 4 } }],
+    SGP.baseLayout("", { showlegend: false, xaxis: { type: "log", title: "lag τ" }, yaxis: { type: "log", title: "ACF |Δp|" } }));
+  SGP.plot("p_ccdf", [{ x: d.ccdf_x, y: d.ccdf_y, type: "scattergl", mode: "markers", marker: { color: C.g2, size: 3 } }],
+    SGP.baseLayout("", { showlegend: false, xaxis: { type: "log", title: "|Δp| / σ" }, yaxis: { type: "log", title: "P(|Δp|>x)" } }));
+  SGP.plot("p_kurt", [
+    { x: d.wins, y: d.kurts, type: "scatter", mode: "lines+markers", line: { color: C.sim }, marker: { size: 8 }, name: "excess kurtosis" },
+    { x: [d.wins[0], d.wins[d.wins.length - 1]], y: [0, 0], type: "scatter", mode: "lines", line: { color: C.ref, dash: "dash" }, name: "Gaussian (0)" },
+  ], SGP.baseLayout("", { xaxis: { type: "log", title: "窓幅 (集計ステップ数)" }, yaxis: { title: "excess kurtosis" } }));
+}
+
+async function run() {
+  const btn = document.getElementById("runBtn"); SGP.setBusy(true);
+  try {
+    await SGP.boot({ packages: ["numpy"] });
+    await SGP.loadSources(FILES);
+    const p = SGP.readControls(SPECS);
+    SGP.status(`実行中… (${p.mode}, N=${p.N}, T=${p.T}) — per-close ループで時間がかかります`, "busy");
+    const t0 = performance.now();
+    draw(await SGP.runDriver(DRIVER, p));
+    SGP.status(`完了 (${((performance.now() - t0) / 1000).toFixed(1)}s)`, "ok");
+  } catch (e) { console.error(e); SGP.status("エラー: " + e.message, "err"); }
+  finally { SGP.setBusy(false); }
+}
+document.getElementById("runBtn").addEventListener("click", run);
+</script>
+</body>
+</html>
+

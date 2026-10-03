@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title data-ja="YH002 · Lux–Marchesi | ABM learning notes" data-en="YH002 · Lux–Marchesi | ABM learning notes">YH002 · Lux–Marchesi | ABM learning notes</title>
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../assets/style.css?v=20261004">
+<link rel="stylesheet" href="style.css">
+<script src="../assets/main.js?v=20261004-2" defer></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+<a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en" lang="en">Skip to content</span></a>
+<header class="site-header"><div class="header-inner page-shell">
+  <img class="site-logo" src="../assets/utokyo-logo.jpg" alt="東京大学 / The University of Tokyo" width="1500" height="1638">
+  <nav aria-label="サイト内ナビゲーション" data-label-ja="サイト内ナビゲーション" data-label-en="Site navigation"><a data-page-link href="../index.html"><span class="ja">ホーム</span><span class="en" lang="en">Home</span></a><a data-page-link href="../research.html"><span class="ja">研究</span><span class="en" lang="en">Research</span></a><a data-page-link href="../education.html"><span class="ja">学歴</span><span class="en" lang="en">Education</span></a><a data-page-link href="../skills.html"><span class="ja">スキル</span><span class="en" lang="en">Skills</span></a></nav>
+  <button id="lang" type="button" hidden aria-label="Switch to English"><span class="ja">English</span><span class="en" lang="en">日本語</span></button>
+</div></header>
+<main id="main" class="page-shell abm-page legacy-demo" lang="ja" tabindex="-1">
+  <header class="page">
+    <div class="crumb"><a data-page-link href="index.html">← playground 一覧</a></div>
+    <h1>YH002 · Lux & Marchesi (2000) Volatility Clustering</h1>
+    <div class="paper">Volatility clustering in financial markets: a microsimulation of interacting agents — <i>IJTAF</i> 3(4) · 実装: <code>models/YH002/model.py</code> (Parameter Set I)</div>
+  </header>
+
+  <p class="lead">トレンドを追う参加者と、基準価格との差を見る参加者が行動を切り替えるモデルです。価格反応 β と基準価格の雑音 σμ を変え、参加者の構成と値動きの関係を調べます。</p>
+
+  <p class="language-note"><span class="ja">この実験の操作画面は日本語です。結果は実行後に表示されます。</span><span class="en" lang="en">This experiment is presented in Japanese. Results appear after you run it.</span></p><noscript><p class="banner warn">シミュレーションには JavaScript が必要です。説明はそのまま読めます。</p></noscript>
+<div id="proto-banner" class="banner warn hidden"></div>
+  <div class="banner info">最初の実行では実行環境を読み込みます。計算量を増やすと、実行中に画面の反応が遅くなることがあります。まず小さい設定で試してください。</div>
+
+  <div class="layout">
+    <aside class="panel controls">
+      <h2>パラメータ</h2>
+      <div id="controls"></div>
+      <button class="run" id="runBtn">▶ シミュレーション実行</button>
+      <div class="status idle" id="status" role="status" aria-live="polite"><span class="dot"></span>待機中</div>
+    </aside>
+
+    <section class="simulation-results" aria-label="シミュレーション結果">
+      <div class="metrics" id="metrics"></div>
+      <div class="plots">
+        <div class="plot full"><div class="cap">リターン時系列 r(t) = ln p(t) − ln p(t−1)</div><div id="p_ret" style="height:280px"></div></div>
+        <div class="plot"><div class="cap">chartist 比率 z(t) と臨界 z̄</div><div id="p_z" style="height:300px"></div></div>
+        <div class="plot"><div class="cap">リターン分布 vs 同分散ガウス (片対数)</div><div id="p_dist" style="height:300px"></div></div>
+        <div class="plot"><div class="cap">生存関数 P(|r|>x) (log-log)</div><div id="p_surv" style="height:300px"></div></div>
+        <div class="plot"><div class="cap">自己相関: raw / squared / |r|</div><div id="p_acf" style="height:300px"></div></div>
+      </div>
+      <details class="notes"><summary>モデルの読み方と出典</summary><p>トレンドを追う chartist と基準価格を見る fundamentalist の割合が変化します。chartist 比率 z(t)、価格変化、自己相関を合わせて見てください。</p><p>自己相関は値動きの持続性を見る指標です。短い試行や乱数シードによって結果は変わります。Hill 指数や尖度は、この実行で得られた標本の推定値です。</p><p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info/experiments/YH002">元のモデル・参考文献</a> · <a href="LICENSE">MIT license</a></p></details>
+    </section>
+  </div>
+</main>
+<footer class="site-footer page-shell"><p><span class="ja">金融 ABM 学習ノート · 長谷川結音</span><span class="en" lang="en">Financial ABM learning notes · Yuito Hasegawa</span></p><p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info"><span class="ja">元の学習リポジトリ</span><span class="en" lang="en">Original learning repository</span></a> · <a href="LICENSE">MIT license</a></p></footer>
+<script src="assets/runner.js"></script>
+<script>
+const C = SGP.COLORS;
+const SPECS = [
+  { id: "steps", label: "integer steps", type: "range", min: 200, max: 2500, step: 100, value: 800, hint: "×100 内部ステップ。大きいほど重い" },
+  { id: "beta", label: "価格反応 β", type: "range", min: 1, max: 12, step: 0.5, value: 6 },
+  { id: "sigma_mu", label: "ファンダ雑音 σ_μ", type: "range", min: 0.0, max: 0.2, step: 0.01, value: 0.05 },
+  { id: "nu1", label: "chartist 遷移率 ν1", type: "range", min: 1, max: 6, step: 0.5, value: 3 },
+  { id: "seed", label: "seed", type: "number", min: 0, max: 99999, step: 1, value: 42 },
+];
+SGP.buildControls("controls", SPECS);
+SGP.fileProtocolBanner();
+
+const FILES = [{ url: "models/YH002/model.py", name: "model.py" }];
+
+const DRIVER = `
+import json, numpy as np, sf
+from model import Params, simulate
+P = json.loads(PARAMS_JSON)
+prm = Params(beta=float(P['beta']), sigma_mu=float(P['sigma_mu']), nu1=float(P['nu1']))
+res = simulate(params=prm, n_integer_steps=int(P['steps']), steps_per_unit=100,
+               seed=int(P['seed']), n_c_init=50, verbose=False)
+prices = res['prices']; ret = res['returns']; z = res['z']; zbar = float(res['zbar'])
+std = float(ret.std()) or 1e-9
+rix, rser = sf.downsample(ret, 4000)
+zix, zser = sf.downsample(z, 4000)
+centers, dens = sf.hist_density(ret, -6*std, 6*std, 100)
+grid = np.linspace(-6*std, 6*std, 300); gp = sf.gaussian_pdf(grid, float(ret.mean()), std)
+ar = np.sort(np.abs(ret[ret != 0])); n = ar.size
+surv = 1.0 - np.arange(1, n+1)/(n+1)
+gabs = np.sort(np.abs(np.random.default_rng(0).normal(0, std, size=n)))
+ml = 120
+acf_raw = sf.acf(ret, ml); acf_sq = sf.acf(ret**2, ml); acf_abs = sf.acf(np.abs(ret), ml)
+RESULT = json.dumps({
+  'zbar': zbar, 'kurt': sf.excess_kurtosis(ret),
+  'hill10': sf.hill_alpha(ret, k=max(2,int(0.10*n))), 'std': std,
+  'ret_x': rix, 'ret_y': rser, 'z_x': zix, 'z_y': zser,
+  'dist_x': centers.tolist(), 'dist_y': dens.tolist(), 'g_x': grid.tolist(), 'g_y': gp.tolist(),
+  'surv_x': ar.tolist(), 'surv_y': surv.tolist(), 'gsurv_x': gabs.tolist(), 'gsurv_y': surv.tolist(),
+  'lags': list(range(1, ml+1)), 'acf_raw': acf_raw, 'acf_sq': acf_sq, 'acf_abs': acf_abs,
+  'ci': 1.96/np.sqrt(len(ret)),
+})
+`;
+
+function draw(d) {
+  SGP.setMetrics("metrics", [
+    { k: "z̄ (critical)", v: SGP.format(d.zbar, 3), good: true },
+    { k: "excess kurtosis", v: SGP.format(d.kurt, 1), good: d.kurt > 3 },
+    { k: "Hill α (10%)", v: SGP.format(d.hill10, 2) },
+    { k: "std(r)", v: SGP.format(d.std, 3, true) },
+  ]);
+  SGP.plot("p_ret", [{ x: d.ret_x, y: d.ret_y, type: "scattergl", mode: "lines", line: { color: C.black, width: 0.6 } }],
+    SGP.baseLayout("", { showlegend: false, xaxis: { title: "t" }, yaxis: { title: "r(t)" } }));
+  SGP.plot("p_z", [
+    { x: d.z_x, y: d.z_y, type: "scattergl", mode: "lines", line: { color: C.sim, width: 0.8 }, name: "z(t)" },
+    { x: [0, d.z_x[d.z_x.length - 1]], y: [d.zbar, d.zbar], type: "scatter", mode: "lines", line: { color: C.ref, dash: "dash" }, name: `z̄=${SGP.format(d.zbar, 3)}` },
+  ], SGP.baseLayout("", { xaxis: { title: "t" }, yaxis: { title: "z", range: [0, 1] } }));
+  SGP.plot("p_dist", [
+    { x: d.dist_x, y: d.dist_y, type: "bar", marker: { color: "rgba(91,156,255,.55)" }, name: "Simulation" },
+    { x: d.g_x, y: d.g_y, type: "scatter", mode: "lines", line: { color: C.ref, width: 2 }, name: "Gaussian" },
+  ], SGP.baseLayout("", { yaxis: { type: "log", title: "density (log)" }, xaxis: { title: "r" }, bargap: 0 }));
+  SGP.plot("p_surv", [
+    { x: d.surv_x, y: d.surv_y, type: "scattergl", mode: "markers", marker: { color: C.sim, size: 3 }, name: "Simulation" },
+    { x: d.gsurv_x, y: d.gsurv_y, type: "scatter", mode: "lines", line: { color: C.ref, dash: "dash" }, name: "Gaussian (same σ)" },
+  ], SGP.baseLayout("", { xaxis: { type: "log", title: "|r|" }, yaxis: { type: "log", title: "P(|r|>x)" } }));
+  SGP.plot("p_acf", [
+    { x: d.lags, y: d.acf_raw, type: "scatter", mode: "lines", line: { color: C.muted, width: 1 }, name: "raw r" },
+    { x: d.lags, y: d.acf_sq, type: "scatter", mode: "lines", line: { color: C.g2, width: 1.4 }, name: "r²" },
+    { x: d.lags, y: d.acf_abs, type: "scatter", mode: "lines", line: { color: C.sim, width: 1.4 }, name: "|r|" },
+    { x: [1, d.lags.length], y: [d.ci, d.ci], type: "scatter", mode: "lines", line: { color: C.ref, dash: "dot", width: 0.8 }, showlegend: false },
+    { x: [1, d.lags.length], y: [-d.ci, -d.ci], type: "scatter", mode: "lines", line: { color: C.ref, dash: "dot", width: 0.8 }, showlegend: false },
+  ], SGP.baseLayout("", { xaxis: { title: "lag" }, yaxis: { title: "ACF" } }));
+}
+
+async function run() {
+  const btn = document.getElementById("runBtn");
+  SGP.setBusy(true);
+  try {
+    await SGP.boot({ packages: ["numpy"] });
+    await SGP.loadSources(FILES);
+    const p = SGP.readControls(SPECS);
+    SGP.status(`実行中… (${p.steps}×100 steps)`, "busy");
+    const t0 = performance.now();
+    const d = await SGP.runDriver(DRIVER, p);
+    draw(d);
+    SGP.status(`完了 (${((performance.now() - t0) / 1000).toFixed(1)}s)`, "ok");
+  } catch (e) {
+    console.error(e);
+    SGP.status("エラー: " + e.message, "err");
+  } finally {
+    SGP.setBusy(false);
+  }
+}
+document.getElementById("runBtn").addEventListener("click", run);
+</script>
+</body>
+</html>
+

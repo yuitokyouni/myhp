@@ -1,0 +1,74 @@
+/* ABM learning pages. Header, navigation, and typography come from myHP. */
+.abm-page { padding-block: 2.75rem 4rem; }
+.abm-breadcrumb, .legacy-demo .crumb { font-size: .875rem; margin-bottom: 1.25rem; }
+.abm-intro { margin-block: 1rem 2.5rem; color: var(--muted); font-size: 1.15rem; }
+.abm-page > .content-section { max-width: 65rem; }
+.abm-page > .content-section + .content-section { margin-top: 2.5rem; }
+.abm-steps { padding-left: 1.5rem; }
+.abm-steps li + li { margin-top: .4rem; }
+.abm-callout, .language-note { padding: 1rem 1.25rem; border-left: 3px solid var(--link); background: color-mix(in srgb, var(--link) 6%, var(--paper)); }
+.abm-models { padding: 0; margin: 0; list-style: none; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 2rem 3rem; }
+.abm-models li { border-top: 1px solid var(--line); padding-top: 1.25rem; }
+.abm-models h3 { font-size: 1.2rem; font-weight: 500; margin-bottom: .75rem; }
+.abm-models p { margin-bottom: .7rem; }
+.abm-models .entry-meta, .abm-observe, .abm-demo-link { font-size: .875rem; }
+.abm-observe { color: var(--muted); }
+.abm-demo-link .muted { margin-left: .5rem; }
+.abm-page code { font-size: .85em; overflow-wrap: anywhere; }
+.legacy-demo .page { border-bottom: 1px solid var(--line); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.legacy-demo h1 { font-size: clamp(1.5rem,3vw,2rem); }
+.legacy-demo .paper { margin-top: .65rem; color: var(--muted); font-size: .85rem; }
+.legacy-demo .lead { max-width: 55rem; }
+.legacy-demo .language-note { font-size: .875rem; }
+.legacy-demo .banner { margin: 1rem 0; padding: .8rem 1rem; border: 1px solid var(--line); font-size: .875rem; }
+.legacy-demo .banner.hidden { display: none; }
+.legacy-demo .banner.warn { border-color: #ba8738; }
+.legacy-demo .layout { display: grid; grid-template-columns: 16rem minmax(0,1fr); align-items: start; gap: 2rem; margin-top: 2rem; }
+.legacy-demo .controls { border: 1px solid var(--line); padding: 1.25rem; }
+.legacy-demo .controls h2 { font-size: 1.125rem; margin-bottom: 1rem; }
+.legacy-demo .ctl { margin-bottom: 1rem; }
+.legacy-demo label { display: block; margin-bottom: .3rem; font-size: .875rem; }
+.legacy-demo label .val { float: right; font-variant-numeric: tabular-nums; color: var(--link); }
+.legacy-demo input[type="range"] { width: 100%; min-height: 1.75rem; accent-color: var(--link); }
+.legacy-demo input[type="number"], .legacy-demo select { width: 100%; padding: .45rem .6rem; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: inherit; font-size: .875rem; }
+.legacy-demo input:focus-visible, .legacy-demo select:focus-visible, .legacy-demo summary:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+.legacy-demo .hint { font-size: .75rem; color: var(--muted); line-height: 1.6; }
+.legacy-demo .run, .legacy-demo .ghost { width: 100%; min-height: 2.75rem; padding: .65rem; font: inherit; font-size: .875rem; cursor: pointer; border: 1px solid var(--link); border-radius: 0; }
+.legacy-demo .run { background: var(--link); color: var(--paper); font-weight: 600; }
+.legacy-demo .ghost { margin-top: .65rem; background: transparent; color: var(--link); }
+.legacy-demo button:disabled { cursor: wait; opacity: .55; }
+.legacy-demo .status { margin-top: 1rem; font-size: .8rem; line-height: 1.6; min-height: 1.5rem; }
+.legacy-demo .dot { display: inline-block; width: .5rem; height: .5rem; border-radius: 50%; margin-right: .45rem; background: var(--muted); }
+.legacy-demo .busy .dot { background: #ba8738; }
+.legacy-demo .ok .dot { background: #2b9f81; }
+.legacy-demo .err .dot { background: #d96960; }
+.legacy-demo .simulation-results, .legacy-demo .plots, .legacy-demo .plot { min-width: 0; }
+.legacy-demo .metrics { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0 0 1rem; }
+.legacy-demo .metric { border-bottom: 1px solid var(--line); padding: .25rem 0 .5rem; min-width: 7rem; }
+.legacy-demo .metric .k { font-size: .75rem; color: var(--muted); }
+.legacy-demo .metric .v { font-variant-numeric: tabular-nums; font-size: 1.2rem; }
+.legacy-demo .plots { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+.legacy-demo .plot { border: 1px solid var(--line); padding: .5rem; }
+.legacy-demo .plot .cap { padding: .25rem .5rem; font-size: .8rem; color: var(--muted); }
+.legacy-demo .notes { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: .875rem; }
+.legacy-demo .notes summary { cursor: pointer; font-size: 1rem; padding-block: .5rem; }
+.legacy-demo .notes table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.legacy-demo .notes th, .legacy-demo .notes td { text-align: left; padding: .5rem; border: 1px solid var(--line); }
+@media (max-width: 62rem) {
+  .legacy-demo .layout { grid-template-columns: 1fr; }
+  .legacy-demo #controls { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 1.5rem; }
+}
+@media (max-width: 46rem) {
+  .abm-page { padding-block: 2rem 3rem; }
+  .abm-models { grid-template-columns: 1fr; gap: 1.5rem; }
+  .legacy-demo #controls { grid-template-columns: 1fr; }
+  .legacy-demo .layout { gap: 1.5rem; }
+}
+@media print {
+  .abm-page { padding-block: 0; }
+  .abm-models { display: block; }
+  .abm-models li { break-inside: avoid; margin-bottom: 1rem; }
+  .abm-demo-link, .abm-breadcrumb, .legacy-demo .controls, .legacy-demo .language-note, .legacy-demo .banner, .legacy-demo .crumb { display: none; }
+  .legacy-demo .layout { display: block; }
+  .legacy-demo .plot { break-inside: avoid; }
+}
