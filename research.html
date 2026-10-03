@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title data-ja="関連するコード | 長谷川結音" data-en="Related code | Yuito Hasegawa">関連するコード | 長谷川結音</title>
+  <meta name="description" content="人工市場の流動性の耐久力、投資家集団の判断の相関、financial-abm-labとlobcoreの紹介。" data-ja="人工市場の流動性の耐久力、投資家集団の判断の相関、financial-abm-labとlobcoreの紹介。" data-en="Research questions on liquidity resilience and decision correlation, with financial-abm-lab and lobcore.">
+  <link rel="stylesheet" href="assets/style.css?v=20261004-logos">
+  <script src="assets/main.js?v=20261004-profile" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en">Skip to content</span></a>
+  <header class="site-header">
+    <div class="header-inner page-shell">
+      <div class="site-branding">
+        <a class="logo-link" href="https://www.u-tokyo.ac.jp/" aria-label="東京大学トップページ" data-label-ja="東京大学トップページ" data-label-en="The University of Tokyo home page"><img class="site-logo" src="assets/utokyo-logo.jpg" alt="UTokyo" width="1500" height="1638"></a>
+        <a class="logo-link gsfs-logo-link" href="https://www.k.u-tokyo.ac.jp/" aria-label="新領域創成科学研究科トップページ" data-label-ja="新領域創成科学研究科トップページ" data-label-en="Graduate School of Frontier Sciences home page"><img class="gsfs-logo" src="assets/gsfs-logo.svg" alt="Graduate School of Frontier Sciences, The University of Tokyo" width="458" height="116"></a>
+      </div>
+      <nav aria-label="メインナビゲーション" data-label-ja="メインナビゲーション" data-label-en="Main navigation">
+      <a data-page-link="index.html" href="index.html"><span class="ja">ホーム</span><span class="en">Home</span></a>
+      <a data-page-link="abm/index.html" href="abm/index.html"><span class="ja">ABMを試す</span><span class="en">Try ABM</span></a>
+      <a data-page-link="research.html" href="research.html" aria-current="page"><span class="ja">関連するコード</span><span class="en">Related code</span></a>
+      </nav>
+      <button id="lang" type="button" hidden aria-label="Switch to English"><span class="ja" lang="en">English</span><span class="en" lang="ja">日本語</span></button>
+    </div>
+  </header>
+  <main id="main" class="page-content page-shell" tabindex="-1">
+    <header class="page-heading"><p class="eyebrow"><span class="ja">長谷川結音</span><span class="en">Yuito Hasegawa</span></p><h1><span class="ja">関連するコード</span><span class="en">Related code</span></h1></header>
+    <section class="content-section" aria-labelledby="software-heading">
+      <h2 id="software-heading"><span class="ja">研究用ソフトウェア</span><span class="en">Research software</span></h2>
+      <p class="reading-width"><span class="ja">実験・解析をまとめる financial-abm-lab と、注文板・約定処理を担う lobcore。現在公開しているコードと、これから検討する研究の問いをつなぐ基盤です。</span><span class="en">financial-abm-lab organizes experiments and analysis; lobcore provides the order book and matching core. These public repositories provide tools for exploring the research questions below.</span></p>
+      <article class="project-entry">
+        <div class="project-heading"><h3><a href="https://github.com/yuitokyouni/financial-abm-lab">financial-abm-lab</a></h3><span class="entry-meta"><span class="ja">モデル・実験・解析</span><span class="en">Models · Experiments · Analysis</span></span></div>
+        <p><span class="ja">金融市場のエージェントベースモデルと実証研究をまとめた研究リポジトリです。共通モデルを使った実験、条件・乱数シード・結果の記録、モデル間の比較を管理しています。</span><span class="en">A research repository for financial-market agent-based models and empirical studies, organizing shared models, experiments, run provenance, and model comparisons.</span></p>
+        <ul class="detail-list"><li><span class="ja">モデルと実験を分け、共通モデルを複数の実験から利用</span><span class="en">Separate reusable models from experiment-specific work</span></li><li><span class="ja">実験条件・乱数シード・出力を記録して結果を追跡</span><span class="en">Record experiment settings, random seeds, and outputs</span></li><li><span class="ja">人工市場モデルの比較、解析、可視化</span><span class="en">Compare, analyze, and visualize artificial market models</span></li></ul>
+        <a href="https://github.com/yuitokyouni/financial-abm-lab#readme"><span class="ja">README・ソースコードを読む</span><span class="en">Read the README and source code</span> →</a>
+      </article>
+      <article class="project-entry">
+        <div class="project-heading"><h3><a href="https://github.com/yuitokyouni/lobcore">lobcore</a></h3><span class="entry-meta">C++20 · Python</span></div>
+        <p><span class="ja">C++20で実装した指値注文板と離散イベント型の市場シミュレーション基盤です。Pythonで記述したエージェントの注文・約定・取消を処理し、イベントログや介入の比較を支援します。</span><span class="en">A C++20 limit order book and discrete-event market simulation core with a Python interface for agent behavior, event logs, and controlled intervention comparisons.</span></p>
+        <ul class="detail-list"><li><span class="ja">指値注文板と注文のマッチング</span><span class="en">Limit order book and order matching</span></li><li><span class="ja">Pythonからエージェントの行動を定義</span><span class="en">Define agent behavior through the Python interface</span></li><li><span class="ja">市場イベントの記録と介入実験の比較</span><span class="en">Record market events and compare intervention experiments</span></li></ul>
+        <a href="https://github.com/yuitokyouni/lobcore#readme"><span class="ja">README・ソースコードを読む</span><span class="en">Read the README and source code</span> →</a>
+      </article>
+    </section>
+    <section class="content-section" aria-labelledby="theme-heading">
+      <h2 id="theme-heading"><span class="ja">人工市場と流動性の耐久力</span><span class="en">Artificial markets and liquidity resilience</span></h2>
+      <p class="reading-width"><span class="ja">エージェントベースモデルを用いた人工市場シミュレーションで、投資家集団の判断と注文板の応答を調べる予定です。現在は、次の2つの問いを研究テーマとして考えています。</span><span class="en">I plan to use agent-based artificial market simulations to investigate investor decisions and order-book responses. My current research questions are:</span></p>
+      <div class="question-list">
+        <article><p class="entry-meta"><span class="ja">研究の問い 01</span><span class="en">Research question 01</span></p><h3><span class="ja">似た注文板は、負荷の下でも同じように振る舞うか</span><span class="en">Do similar order books respond similarly under stress?</span></h3><p><span class="ja">平常時には似た注文板をつくる投資家集団が、売り圧力を受けたとき、なぜ注文の補充を続ける集団と一斉に退く集団に分かれるのでしょうか。通常時の見た目だけでは捉えにくい、流動性の応答の違いに着目します。</span><span class="en">Why do investor populations with similar order books in normal conditions diverge under selling pressure, with some continuing to replenish orders while others withdraw together? I focus on differences in liquidity response that may not be apparent from the order book in normal conditions.</span></p></article>
+        <article><p class="entry-meta"><span class="ja">研究の問い 02</span><span class="en">Research question 02</span></p><h3><span class="ja">同じ習熟度の分布でも、判断の相関で耐久力は変わるか</span><span class="en">Does decision correlation matter at the same proficiency distribution?</span></h3><p><span class="ja">各エージェントの予測の習熟度の分布が同じでも、互いに似た判断をする集団と、独立した判断をする集団では、流動性の耐久力が異なるのでしょうか。個々の特性の分布と、集団内で判断が似通う度合いを分けて考えます。</span><span class="en">Even with the same distribution of forecasting proficiency across agents, does liquidity resilience differ between populations making similar decisions and those making independent decisions? I distinguish the distribution of individual characteristics from the degree of similarity in decisions across the population.</span></p></article>
+      </div>
+    </section>
+    <section class="content-section" aria-labelledby="abm-heading">
+      <h2 id="abm-heading"><span class="ja">ABM入門・実験</span><span class="en">ABM guide and experiments</span></h2>
+      <p class="reading-width"><span class="ja">以前作成した「金融マーケット ABM — 実験 playground」を、このサイトの中に移しました。Cont–Bouchaud、Lux–Marchesi、Minority Gameなどを通じて、個々の取引ルールと市場全体の振る舞いのつながりを試せます。</span><span class="en">The earlier financial-market ABM playground is now part of this site. Explore the connection between individual trading rules and market behavior through models such as Cont–Bouchaud, Lux–Marchesi, and the Minority Game.</span></p>
+      <a class="text-link" data-page-link="abm/index.html" href="abm/index.html"><span class="ja">解説とブラウザ実験を開く</span><span class="en">Open the guide and browser experiments</span> <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+  <div class="page-shell"><footer class="site-footer"><p>© <span class="year">2026</span> <span class="ja">長谷川結音</span><span class="en">Yuito Hasegawa</span></p></footer></div>
+</body>
+</html>
