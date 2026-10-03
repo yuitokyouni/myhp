@@ -48,6 +48,10 @@ GSFSロゴの形状は[公式英語サイトのSVG](https://www.k.u-tokyo.ac.jp/
 この色は[公式の色指定資料](https://www.k.u-tokyo.ac.jp/assets/images/gsfs/logo_color.jpg)の緑スウォッチから採取したRGB値です。
 資料にWeb用HEX値の指定はなく、印刷色はPANTONE 357Cです。樹の色・形状・縦横比は保持し、背景は透明です。
 
+所在地は[人間環境学専攻の公式アクセス案内](https://www.h.k.u-tokyo.ac.jp/access/index.html)と
+[公式パンフレット](https://www.h.k.u-tokyo.ac.jp/pdf/2025pamphHEES.pdf)に基づき、
+〒277-8563 千葉県柏市柏の葉5-1-5 東京大学柏キャンパス 新領域環境棟と記載しています。
+
 ## 内容を更新する
 
 日本語と英語をセットで更新します。
@@ -105,6 +109,11 @@ python3 -m http.server 8765 --bind 127.0.0.1
 ```
 
 `http://127.0.0.1:8765/` を開きます。日本語は `?lang=ja`、英語は `?lang=en` で指定できます。
+
+## 更新の進め方
+
+ユーザーの指定により、通常の更新ではPRを作らず、既定ブランチへ直接コミット・プッシュします。
+プッシュ前に最新のリモート状態と表示を確認します。GitHub Pagesの公開元は既定ブランチとは別設定です。
 
 ## GitHub Pages
 
