@@ -34,6 +34,7 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
 .skip-link { position: absolute; top: .5rem; left: 1rem; z-index: 2; padding: .5rem 1rem; background: var(--paper); transform: translateY(-200%); }
 .skip-link:focus { transform: translateY(0); }
 .site-header {
+  isolation: isolate;
   --link: #245a7a;
   --line: #b9d4e4;
   color: #234b63;
@@ -47,7 +48,8 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
   min-height: 13rem;
   padding-block: 1.75rem;
 }
-.site-logo { display: block; flex: none; width: 7.5rem; height: auto; }
+/* Keep the supplied artwork intact; white blends into the pale blue header. */
+.site-logo { display: block; flex: none; width: 7.5rem; height: auto; mix-blend-mode: multiply; }
 .site-header nav { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; margin-left: auto; }
 .site-header nav a { display: inline-block; padding: .5rem 0; font-size: .875rem; text-decoration: none; }
 .site-header nav a:hover { text-decoration: underline; }
@@ -56,8 +58,6 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
 .profile-layout { display: grid; grid-template-columns: minmax(0, 18rem) minmax(0, 1fr); gap: 4rem; padding: 3.25rem 0 4rem; }
 .profile { padding-right: 2rem; border-right: 1px solid var(--line); }
 .name-secondary { margin: .5rem 0 1.65rem; color: var(--muted); font-size: 1.0625rem; }
-.position { margin-bottom: 2rem; line-height: 1.75; }
-.position .muted { font-size: .875rem; }
 .profile-section { margin-top: 2rem; }
 .profile-section h2 { margin-bottom: .8rem; color: var(--muted); font-size: .875rem; font-weight: 500; }
 .profile-section p { margin-bottom: .85rem; }
@@ -111,7 +111,7 @@ main { min-width: 0; }
   h1 { font-size: 21pt; }
   h2 { font-size: 14pt; margin-bottom: .65rem; }
   h3 { font-size: 11pt; }
-  .name-secondary, .position, .profile-section p { margin-bottom: .5rem; }
+  .name-secondary, .profile-section p { margin-bottom: .5rem; }
   .profile-section { margin-top: .75rem; }
   .content-section + .content-section { margin-top: 1rem; padding-top: 1rem; }
   .education-list li, .skills-list > div { grid-template-columns: 8.5rem minmax(0, 1fr); }
