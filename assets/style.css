@@ -5,7 +5,7 @@
   --muted: #636d75;
   --link: #286086;
   --line: #dce1e5;
-  --accent: #183b53;
+  --header-bg: #e4f2fa;
 }
 html[lang="ja"] .en,
 html[lang="en"] .ja,
@@ -13,9 +13,7 @@ html[lang="en"] .ja,
 * { box-sizing: border-box; }
 html { scroll-padding-top: 2rem; }
 body {
-  max-width: 75rem;
-  margin: 0 auto;
-  padding: 0 2.75rem;
+  margin: 0;
   color: var(--ink);
   background: var(--paper);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
@@ -23,6 +21,7 @@ body {
   line-height: 1.85;
   overflow-wrap: anywhere;
 }
+.page-shell { max-width: 75rem; margin-inline: auto; padding-inline: 2.75rem; }
 a { color: var(--link); text-underline-offset: .2em; text-decoration-thickness: 1px; }
 a:hover { text-decoration-thickness: 2px; }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; }
@@ -35,15 +34,23 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
 .skip-link { position: absolute; top: .5rem; left: 1rem; z-index: 2; padding: .5rem 1rem; background: var(--paper); transform: translateY(-200%); }
 .skip-link:focus { transform: translateY(0); }
 .site-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 2.5rem;
-  min-height: 5.25rem;
-  border-top: 4px solid var(--accent);
+  isolation: isolate;
+  --link: #245a7a;
+  --line: #b9d4e4;
+  color: #234b63;
+  background: var(--header-bg);
   border-bottom: 1px solid var(--line);
 }
-.site-header nav { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; }
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  min-height: 13rem;
+  padding-block: 1.75rem;
+}
+/* Keep the supplied artwork intact; white blends into the pale blue header. */
+.site-logo { display: block; flex: none; width: 7.5rem; height: auto; mix-blend-mode: multiply; }
+.site-header nav { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; margin-left: auto; }
 .site-header nav a { display: inline-block; padding: .5rem 0; font-size: .875rem; text-decoration: none; }
 .site-header nav a:hover { text-decoration: underline; }
 #lang { flex-shrink: 0; min-height: 2.75rem; padding: .4rem .75rem; color: var(--link); background: transparent; border: 1px solid var(--line); font: inherit; font-size: .875rem; cursor: pointer; }
@@ -51,8 +58,6 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
 .profile-layout { display: grid; grid-template-columns: minmax(0, 18rem) minmax(0, 1fr); gap: 4rem; padding: 3.25rem 0 4rem; }
 .profile { padding-right: 2rem; border-right: 1px solid var(--line); }
 .name-secondary { margin: .5rem 0 1.65rem; color: var(--muted); font-size: 1.0625rem; }
-.position { margin-bottom: 2rem; line-height: 1.75; }
-.position .muted { font-size: .875rem; }
 .profile-section { margin-top: 2rem; }
 .profile-section h2 { margin-bottom: .8rem; color: var(--muted); font-size: .875rem; font-weight: 500; }
 .profile-section p { margin-bottom: .85rem; }
@@ -75,35 +80,38 @@ main { min-width: 0; }
 .site-footer { padding: 1.25rem 0 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .875rem; }
 .site-footer p { margin: 0; }
 @media (max-width: 62rem) {
-  body { padding: 0 2rem; }
+  .page-shell { padding-inline: 2rem; }
   .profile-layout { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 2.5rem; }
   .profile { padding-right: 1.5rem; }
   .education-list li, .skills-list > div { grid-template-columns: 1fr; gap: .25rem; }
   .desktop-break { display: none; }
 }
 @media (max-width: 46rem) {
-  body { padding: 0 1.25rem; }
-  .site-header { justify-content: space-between; gap: .75rem; min-height: 4.75rem; }
-  .site-header nav { gap: .2rem 1rem; }
+  .page-shell { padding-inline: 1.25rem; }
+  .header-inner { flex-wrap: wrap; gap: 1rem; min-height: 0; padding-block: 1.25rem; }
+  .site-logo { width: 6rem; }
+  .site-header nav { order: 3; flex-basis: 100%; margin-left: 0; gap: .25rem 1.75rem; }
+  #lang { margin-left: auto; }
   .profile-layout { grid-template-columns: 1fr; gap: 2.25rem; padding: 2rem 0 3rem; }
   .profile { padding: 0 0 2rem; border-right: 0; border-bottom: 1px solid var(--line); }
   .profile-section { margin-top: 1.5rem; }
   .content-section + .content-section { margin-top: 2rem; padding-top: 1.75rem; }
 }
 @media (prefers-color-scheme: dark) {
-  :root { --paper: #161b20; --ink: #e2e7eb; --muted: #a5afb8; --link: #92c4e5; --line: #35414b; --accent: #92c4e5; }
+  :root { --paper: #161b20; --ink: #e2e7eb; --muted: #a5afb8; --link: #92c4e5; --line: #35414b; }
 }
 @media print {
   :root { color-scheme: light; --paper: #fff; --ink: #222; --muted: #555; --link: #222; --line: #ccc; }
   @page { margin: 15mm; }
   body { max-width: none; padding: 0; font-size: 10pt; line-height: 1.55; }
+  .page-shell { max-width: none; padding-inline: 0; }
   .site-header, .skip-link { display: none; }
   .profile-layout { display: block; padding: 0; }
   .profile { padding: 0 0 1rem; margin-bottom: 1rem; border-right: 0; border-bottom: 1px solid var(--line); }
   h1 { font-size: 21pt; }
   h2 { font-size: 14pt; margin-bottom: .65rem; }
   h3 { font-size: 11pt; }
-  .name-secondary, .position, .profile-section p { margin-bottom: .5rem; }
+  .name-secondary, .profile-section p { margin-bottom: .5rem; }
   .profile-section { margin-top: .75rem; }
   .content-section + .content-section { margin-top: 1rem; padding-top: 1rem; }
   .education-list li, .skills-list > div { grid-template-columns: 8.5rem minmax(0, 1fr); }

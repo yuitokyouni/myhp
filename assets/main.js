@@ -12,8 +12,8 @@
     en: "Yuito Hasegawa | Research & Education"
   };
   var descriptions = {
-    ja: "長谷川結音の研究・学歴。学部でのペロブスカイト太陽電池の研究と、2026年10月からの東京大学大学院への進学予定について。",
-    en: "Research and education of Yuito Hasegawa: undergraduate work on perovskite solar cells and planned graduate study at the University of Tokyo from October 2026."
+    ja: "長谷川結音の研究・学歴。ペロブスカイト太陽電池の卒業研究、東京大学での学歴、モデリング・プログラミングのスキル。",
+    en: "Research and education of Yuito Hasegawa: undergraduate work on perovskite solar cells, education at the University of Tokyo, and modeling and programming skills."
   };
 
   function supported(lang) {
