@@ -11,22 +11,21 @@ HTML / CSS / JavaScript だけで動く、日英対応の研究者プロフィ�
 
 ## 構成
 
-- ホーム: 氏名、所属、関連リンクと研究の概要
+- ホーム: 左列に氏名・所属・関連リンク、右列に研究・研究経験・学歴・スキル
 - 共通ヘッダー: 薄い水色の帯、大学ロゴ、別ページへのナビゲーション
-- 研究: 2つの研究の問い、financial-abm-lab / lobcore、ABM入門への導線
-- 学歴: 年単位の学歴と卒業研究
-- スキル: モデリング、プログラミング、語学
+- 関連するコード: financial-abm-lab / lobcore の紹介とリンク、研究の問いの詳細
+- ナビゲーション: ホーム、ABMを試す、関連するコードの3項目。学歴・スキルはホーム本文に掲載
 - ABM入門・実験: 以前の公開 playground を移植（詳細は abm/README.md）
 - スマートフォン: 1 列に切り替え
 - 日英切り替え、OS 設定に応じたダークモード、印刷用スタイルに対応
-- プロフィール4ページは外部CDN不使用。ABM実験ではPyodideとPlotlyのCDNを使用
+- ホームと関連コードページは外部CDN不使用。ABM実験ではPyodideとPlotlyのCDNを使用
 - トラッキングは不使用
 
 ```text
-index.html          ホーム
-research.html       研究
-education.html      学歴・卒業研究
-skills.html         スキル
+index.html          研究・研究経験・学歴・スキルをまとめたホーム
+research.html       関連するコード
+education.html      旧URL互換（ホームの学歴へ転送）
+skills.html         旧URL互換（ホームのスキルへ転送）
 abm/                ABM入門とブラウザ実験
 assets/style.css    配色・2列レイアウト・スマートフォン・印刷
 assets/main.js      言語切り替え・ページ情報・年号
@@ -62,7 +61,9 @@ HTML の `lang` 属性に応じて片方だけ表示します。JavaScript が�
 （日本語以外のブラウザは英語表示）。無効な言語値は無視します。
 ページ名・説明は各HTMLの title / description の `data-ja` / `data-en` に定義します。
 内部リンクには `data-page-link="research.html"` のようにパスを指定すると、言語選択を引き継ぎます。
-旧ホームの `#research` / `#education` / `#skills` は対応する別ページへ転送します。
+ホームの `#research` / `#education` / `#skills` は本文の各節を指します。
+旧 `education.html` / `skills.html` は言語を引き継いでホームの対応する節へ転送します。
+JavaScript無効時も、転送先へのリンクを表示します。
 
 ### 次に追加・確認する情報
 
@@ -93,7 +94,7 @@ HTML の `lang` 属性に応じて片方だけ表示します。JavaScript が�
 ```
 
 新しい節にナビゲーションを追加する場合は、日英の表示と実在する節の ID を合わせてください。
-卒業論文は学歴ページの「卒業研究」に置いています。
+卒業論文はホームの「研究経験」に置いています。
 
 ## ローカルで開く
 

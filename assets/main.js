@@ -68,10 +68,11 @@
     el.textContent = year;
   });
 
-  // Keep previously shared homepage section URLs useful after the split.
-  if (document.body.hasAttribute("data-home")) {
-    var legacyPages = { "#research": "research.html", "#education": "education.html", "#skills": "skills.html" };
-    var legacy = legacyPages[location.hash];
-    if (legacy) location.replace(legacy + "?lang=" + initial);
+  // Older standalone education/skills URLs now lead to the home sections.
+  var redirect = document.body.getAttribute("data-redirect");
+  if (redirect) {
+    var destination = new URL(redirect, location.href);
+    destination.searchParams.set("lang", initial);
+    location.replace(destination.href);
   }
 })();
