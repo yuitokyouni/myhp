@@ -5,7 +5,8 @@ HTML / CSS / JavaScript だけで動く、日英対応の研究者プロフィ�
 
 [Rama Cont 氏の研究者ページ](https://www.maths.ox.ac.uk/people/rama.cont)を参考に、
 プロフィールと研究内容を分けた構成に整理しています。
-上部には本人から提供された東京大学のロゴを配置しています。
+上部には本人から提供された東京大学のロゴと、公式サイト由来の新領域創成科学研究科ロゴを配置しています。
+それぞれのロゴから、大学と研究科のトップページへ移動できます。
 他の研究者の業績は使用していません。
 
 ## 構成
@@ -30,6 +31,7 @@ abm/                ABM入門とブラウザ実験
 assets/style.css    配色・2列レイアウト・スマートフォン・印刷
 assets/main.js      言語切り替え・ページ情報・年号
 assets/utokyo-logo.jpg  提供された大学ロゴ（色・余白・縦横比を保持）
+assets/gsfs-logo.svg   新領域創成科学研究科の英語ロゴ
 .nojekyll           GitHub Pages 向け設定
 ```
 
@@ -40,7 +42,12 @@ CSS の `mix-blend-mode: multiply` で白がヘッダー背景になじむよう
 ヘッダーの色は
 `assets/style.css` の `--header-bg`、高さは `.header-inner` の `min-height`、
 ロゴの表示幅は `.site-logo` の `width` で調整できます。
-スマートフォンではナビゲーションをロゴの下に配置します。
+スマートフォンでは2つのロゴを横並びに保ち、ナビゲーションと言語ボタンをその下に配置します。
+
+GSFSロゴの形状は[公式英語サイトのSVG](https://www.k.u-tokyo.ac.jp/en/assets/images/common/logo-en.svg)を使用しています。
+淡い背景でも読めるよう文字の塗りだけを緑 `#345a2b` に変更しています。
+この色は[公式の色指定資料](https://www.k.u-tokyo.ac.jp/assets/images/gsfs/logo_color.jpg)の緑スウォッチから採取したRGB値です。
+資料にWeb用HEX値の指定はなく、印刷色はPANTONE 357Cです。樹の色・形状・縦横比は保持し、背景は透明です。
 
 ## 内容を更新する
 

@@ -44,12 +44,16 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
 .header-inner {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 2rem;
   min-height: 13rem;
   padding-block: 1.75rem;
 }
 /* Keep the supplied artwork intact; white blends into the pale blue header. */
+.site-branding { display: flex; align-items: center; gap: 1.5rem; min-width: 0; }
+.logo-link { display: block; flex: none; }
+.gsfs-logo-link { flex-shrink: 1; min-width: 0; }
 .site-logo { display: block; flex: none; width: 7.5rem; height: auto; mix-blend-mode: multiply; }
+.gsfs-logo { display: block; width: 15rem; max-width: 100%; height: auto; }
 .site-header nav { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; margin-left: auto; }
 .site-header nav a { display: inline-block; padding: .5rem 0; font-size: .875rem; text-decoration: none; }
 .site-header nav a:hover { text-decoration: underline; }
@@ -95,6 +99,9 @@ main { min-width: 0; }
 .site-footer p { margin: 0; }
 @media (max-width: 62rem) {
   .page-shell { padding-inline: 2rem; }
+  .header-inner { flex-wrap: wrap; }
+  .site-branding { margin-right: auto; }
+  .site-header nav { order: 3; flex-basis: 100%; margin-left: 0; }
   .profile-layout { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 2.5rem; }
   .profile { padding-right: 1.5rem; }
   .education-list li, .skills-list > div { grid-template-columns: 1fr; gap: .25rem; }
@@ -104,8 +111,10 @@ main { min-width: 0; }
   .page-shell { padding-inline: 1.25rem; }
   .header-inner { flex-wrap: wrap; gap: 1rem; min-height: 0; padding-block: 1.25rem; }
   .site-logo { width: 6rem; }
-  .site-header nav { order: 3; flex-basis: 100%; margin-left: 0; gap: .25rem 1.75rem; }
-  #lang { margin-left: auto; }
+  .site-branding { flex-basis: 100%; }
+  .gsfs-logo { width: 13rem; }
+  .site-header nav { order: 2; flex: 1; gap: .25rem 1rem; }
+  #lang { order: 3; margin-left: auto; }
   .profile-layout { grid-template-columns: 1fr; gap: 2.25rem; padding: 2rem 0 3rem; }
   .profile { padding: 0 0 2rem; border-right: 0; border-bottom: 1px solid var(--line); }
   .profile-section { margin-top: 1.5rem; }
