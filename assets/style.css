@@ -34,7 +34,6 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
 .skip-link { position: absolute; top: .5rem; left: 1rem; z-index: 2; padding: .5rem 1rem; background: var(--paper); transform: translateY(-200%); }
 .skip-link:focus { transform: translateY(0); }
 .site-header {
-  isolation: isolate;
   --link: #245a7a;
   --line: #b9d4e4;
   color: #234b63;
@@ -45,15 +44,13 @@ h3 { margin: 0 0 .4rem; font-size: 1.0625rem; line-height: 1.7; font-weight: 600
   display: flex;
   align-items: center;
   gap: 2rem;
-  min-height: 13rem;
+  min-height: 8rem;
   padding-block: 1.75rem;
 }
-/* Keep the supplied artwork intact; white blends into the pale blue header. */
-.site-branding { display: flex; align-items: center; gap: 1.5rem; min-width: 0; }
-.logo-link { display: block; flex: none; }
-.gsfs-logo-link { flex-shrink: 1; min-width: 0; }
-.site-logo { display: block; flex: none; width: 7.5rem; height: auto; mix-blend-mode: multiply; }
-.gsfs-logo { display: block; width: 15rem; max-width: 100%; height: auto; }
+.site-branding { display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; min-width: 0; max-width: 30rem; }
+.affiliation-link { display: block; line-height: 1.5; }
+.university-link { font-size: 1.125rem; font-weight: 600; }
+.graduate-school-link { font-size: .875rem; }
 .site-header nav { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; margin-left: auto; }
 .site-header nav a { display: inline-block; padding: .5rem 0; font-size: .875rem; text-decoration: none; }
 .site-header nav a:hover { text-decoration: underline; }
@@ -110,9 +107,7 @@ main { min-width: 0; }
 @media (max-width: 46rem) {
   .page-shell { padding-inline: 1.25rem; }
   .header-inner { flex-wrap: wrap; gap: 1rem; min-height: 0; padding-block: 1.25rem; }
-  .site-logo { width: 6rem; }
   .site-branding { flex-basis: 100%; }
-  .gsfs-logo { width: 13rem; }
   .site-header nav { order: 2; flex: 1; gap: .25rem 1rem; }
   #lang { order: 3; margin-left: auto; }
   .profile-layout { grid-template-columns: 1fr; gap: 2.25rem; padding: 2rem 0 3rem; }

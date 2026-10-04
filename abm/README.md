@@ -47,7 +47,7 @@ literature; no publisher figures or paper PDFs are copied.
 - A bilingual catalogue and brief ABM introduction replace the old development
   landing page. Individual experiment interfaces remain Japanese and are marked
   `lang="ja"`, so they stay readable when site navigation is switched to English.
-- All pages share myHP's header, logo, page links, language selection, and visual
+- All pages share myHP's header, affiliation text links, page links, language selection, and visual
   style. Experiment-specific CSS is contained in `style.css`.
 - Source URLs now load bundled `models/` files. The pages do not fetch changing
   model source from the remote repository at runtime.
