@@ -10,6 +10,7 @@
 <script src="../assets/main.js?v=20261004-profile" defer></script>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script src="assets/source-viewer.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en" lang="en">Skip to content</span></a>
@@ -33,6 +34,43 @@
   <p class="language-note"><span class="ja">この実験の操作画面は日本語です。結果は実行後に表示されます。</span><span class="en" lang="en">This experiment is presented in Japanese. Results appear after you run it.</span></p><noscript><p class="banner warn">シミュレーションには JavaScript が必要です。説明はそのまま読めます。</p></noscript>
 <div id="proto-banner" class="banner warn hidden"></div>
   <div class="banner info">最初の実行では実行環境を読み込みます。計算量を増やすと、実行中に画面の反応が遅くなることがあります。まず小さい設定で試してください。</div>
+
+  <details class="abm-explanation" id="guide-yh001">
+  <summary><span class="ja">基本の考え方・Python元コード</span><span class="en" lang="en">Basic ideas and Python source</span></summary>
+  <div class="abm-explanation-body">
+    <h3><span class="ja">基本の考え方</span><span class="en" lang="en">Basic idea</span></h3>
+    <p><span class="ja">個々の投資家ではなく、つながった「群れ」が一緒に注文を出すモデルです。大きな群れの行動が、大きな価格変動につながる仕組みを考えます。</span><span class="en" lang="en">Connected groups of investors place orders together. The model explores how the actions of a large group can produce a large price change.</span></p>
+    <h3><span class="ja">計算の流れ</span><span class="en" lang="en">Simulation flow</span></h3>
+    <ol><li><span class="ja">毎ステップ、N人を確率 c/N でつなぎ、連結したクラスタを求めます。</span><span class="en" lang="en">At each step, connect N agents with probability c/N and find connected clusters.</span></li><li><span class="ja">クラスタごとに、確率 a で買い、確率 a で売り、確率 1−2a で待機を選びます。注文量はクラスタの人数です。</span><span class="en" lang="en">Each cluster buys with probability a, sells with probability a, and waits with probability 1−2a. Order size equals cluster size.</span></li><li><span class="ja">人数で重みづけした注文の合計 D を計算し、価格変化を Δx = D/λ とします。ブラウザ版では λ = 1 です。</span><span class="en" lang="en">Sum orders weighted by cluster size to obtain D, then set the price change to Δx = D/λ. The browser fixes λ = 1.</span></li></ol>
+    <h3><span class="ja">パラメータと見るポイント</span><span class="en" lang="en">Parameters and observations</span></h3>
+    <p><span class="ja">c を変えてクラスタサイズ分布と価格変化の分布を比較します。a は各クラスタの売買頻度を変えます。</span><span class="en" lang="en">Vary c to compare cluster sizes and price-change distributions. Parameter a changes how often each cluster trades.</span></p>
+    <h3><span class="ja">Python元コード</span><span class="en" lang="en">Python source</span></h3>
+    <p><span class="ja">モデル本体はこのブラウザ実験が読み込むファイルです。「元の実行入口」は元リポジトリの main 関数または実行ブロックを含むスクリプトで、全文を変更せず掲載しています。</span><span class="en" lang="en">The model core files are used by this browser experiment. Original entry scripts are reproduced in full, unchanged, including their main function or execution block.</span></p>
+    <p><span class="ja">元の実行入口を手元で実行するには、元リポジトリの補助ファイルと依存パッケージも必要です。掲載コードの設定や記述は元の実験時点のもので、ブラウザ版の設定・実行結果とは異なります。</span><span class="en" lang="en">Running the original entry scripts also requires helper files and dependencies from the source repository. Their settings and comments describe the original experiments and differ from the browser settings and results.</span></p>
+    <details class="abm-source" data-source-url="models/YH001/model.py">
+  <summary><span class="ja">モデル本体</span><span class="en" lang="en">Model core</span> · <code>YH001/model.py</code></summary>
+  <p><a href="models/YH001/model.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH001/model.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+<details class="abm-source" data-source-url="models/YH001/run_simulation.py">
+  <summary><span class="ja">元の実行入口（main）</span><span class="en" lang="en">Original entry point (main)</span> · <code>YH001/run_simulation.py</code></summary>
+  <p><a href="models/YH001/run_simulation.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH001/run_simulation.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+    <details class="abm-source" data-source-driver hidden>
+  <summary>このブラウザ実験のPython実行コード（DRIVER）</summary>
+  <p>操作画面のパラメータを受け取り、モデル本体を呼んで、グラフ用の統計を計算するコードです。<code>PARAMS_JSON</code> と <code>sf</code> はブラウザの実行環境から渡されます。</p>
+  <pre tabindex="0" aria-label="ブラウザ実験のPython実行コード"><code></code></pre>
+</details>
+    <p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info/experiments/YH001"><span class="ja">元リポジトリのコード・参考文献</span><span class="en" lang="en">Original code and references</span></a> · <a href="LICENSE">MIT license</a></p>
+  </div>
+</details>
 
   <div class="layout">
     <aside class="panel controls">

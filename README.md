@@ -1,121 +1,62 @@
 # 長谷川結音 / Yuito Hasegawa
 
-HTML / CSS / JavaScript だけで動く、日英対応の研究者プロフィールです。
-ビルドや依存パッケージは不要で、GitHub Pages のルートからそのまま配信できます。
+研究・研究経験・学歴・スキルと、金融市場のエージェントベースモデル（ABM）の学習ノートをまとめた、日英対応のWebサイトです。HTML / CSS / JavaScriptで構成しています。
 
-[Rama Cont 氏の研究者ページ](https://www.maths.ox.ac.uk/people/rama.cont)を参考に、
-プロフィールと研究内容を分けた構成に整理しています。
-上部には本人から提供された東京大学のロゴと、公式サイト由来の新領域創成科学研究科ロゴを配置しています。
-それぞれのロゴから、大学と研究科のトップページへ移動できます。
-他の研究者の業績は使用していません。
+## 公開URL
 
-## 構成
+- ホーム: https://yuitokyouni.github.io/myhp/
+- ABMを試す: https://yuitokyouni.github.io/myhp/abm/
+- 関連するコード: https://yuitokyouni.github.io/myhp/research.html
 
-- ホーム: 左列に氏名・所属・関連リンク、右列に研究・研究経験・学歴・スキル
-- 共通ヘッダー: 薄い水色の帯、大学ロゴ、別ページへのナビゲーション
-- 関連するコード: financial-abm-lab / lobcore の紹介とリンク、研究の問いの詳細
-- ナビゲーション: ホーム、ABMを試す、関連するコードの3項目。学歴・スキルはホーム本文に掲載
-- ABM入門・実験: 以前の公開 playground を移植（詳細は abm/README.md）
-- スマートフォン: 1 列に切り替え
-- 日英切り替え、OS 設定に応じたダークモード、印刷用スタイルに対応
-- ホームと関連コードページは外部CDN不使用。ABM実験ではPyodideとPlotlyのCDNを使用
-- トラッキングは不使用
+## ページの内容
+
+ホームは、左列に氏名・所属・連絡先・関連リンク、右列に研究・研究経験・学歴・スキルを掲載しています。ヘッダーの東京大学・新領域創成科学研究科のロゴから、それぞれの公式サイトへ移動できます。スマートフォンでは本文が1列になります。
+
+「ABMを試す」には、ABMの入門説明と6つのブラウザ実験があります。モデル一覧と各実験ページの「基本の考え方・Python元コード」トグルで、考え方、計算の流れ、パラメータの意味、モデル本体と元の実行入口を読めます。各実験ページでは、ブラウザで実際に使うPython実行コード（DRIVER）も表示できます。
+
+| 実験 | 内容 |
+| --- | --- |
+| YH001 · Cont–Bouchaud | 群れと価格変動 |
+| YH002 · Lux–Marchesi | 取引スタイルの切り替え |
+| YH003 · Minority Game | 少数派に入るゲーム |
+| YH004 · Grand Canonical Minority Game | 参加する・見送る |
+| YH005 · Speculation Game | 認知と往復売買 |
+| YH005_1 · Speculation Gameの分析 | YH005と同じモデルを五つの図で読む |
+
+実験はPyodideでPythonを実行し、Plotlyで図を描きます。初回実行にはCDNから実行環境を読み込む時間がかかります。説明と元コードの閲覧にシミュレーション実行は不要です。モデルの出典、ライセンス、実行上の制約は [abm/README.md](abm/README.md) に記載しています。
+
+「関連するコード」には、financial-abm-lab / lobcoreの紹介・リンクと、研究の問いの詳細を掲載しています。
+
+## ファイル構成
 
 ```text
-index.html          研究・研究経験・学歴・スキルをまとめたホーム
-research.html       関連するコード
-education.html      旧URL互換（ホームの学歴へ転送）
-skills.html         旧URL互換（ホームのスキルへ転送）
-abm/                ABM入門とブラウザ実験
-assets/style.css    配色・2列レイアウト・スマートフォン・印刷
-assets/main.js      言語切り替え・ページ情報・年号
-assets/utokyo-logo.jpg  提供された大学ロゴ（色・余白・縦横比を保持）
-assets/gsfs-logo.svg   新領域創成科学研究科の英語ロゴ
-.nojekyll           GitHub Pages 向け設定
+index.html                  ホーム
+research.html               関連するコード
+education.html              ホームの学歴への転送（旧URL互換）
+skills.html                 ホームのスキルへの転送（旧URL互換）
+assets/style.css            共通の配色・レイアウト・印刷スタイル
+assets/main.js              言語切り替え・ページ情報・旧URL転送
+assets/utokyo-logo.jpg       東京大学ロゴ
+assets/gsfs-logo.svg         新領域創成科学研究科ロゴ
+abm/index.html              ABM入門・モデル一覧・解説トグル
+abm/yh*.html                6つの実験ページ・解説トグル
+abm/style.css               ABMページのスタイル
+abm/assets/runner.js        Python実行・入力・グラフの共通処理
+abm/assets/source-viewer.js Python元コードの表示・再読み込み
+abm/assets/sf.py            統計処理
+abm/models/                 実行用モデルと閲覧用の元実行スクリプト
 ```
-
-ロゴは提供されたカラー JPEG をそのまま使用しています。画像ファイル自体は白背景のままですが、
-CSS の `mix-blend-mode: multiply` で白がヘッダー背景になじむように表示しています。
-合成対象は `isolation: isolate` を指定したヘッダー内に限定しています。
-薄い水色との乗算合成のため表示色はわずかに影響を受けますが、元の文字・図形・余白は変更しません。
-ヘッダーの色は
-`assets/style.css` の `--header-bg`、高さは `.header-inner` の `min-height`、
-ロゴの表示幅は `.site-logo` の `width` で調整できます。
-スマートフォンでは2つのロゴを横並びに保ち、ナビゲーションと言語ボタンをその下に配置します。
-
-GSFSロゴの形状は[公式英語サイトのSVG](https://www.k.u-tokyo.ac.jp/en/assets/images/common/logo-en.svg)を使用しています。
-淡い背景でも読めるよう文字の塗りだけを緑 `#345a2b` に変更しています。
-この色は[公式の色指定資料](https://www.k.u-tokyo.ac.jp/assets/images/gsfs/logo_color.jpg)の緑スウォッチから採取したRGB値です。
-資料にWeb用HEX値の指定はなく、印刷色はPANTONE 357Cです。樹の色・形状・縦横比は保持し、背景は透明です。
-
-所在地は[人間環境学専攻の公式アクセス案内](https://www.h.k.u-tokyo.ac.jp/access/index.html)と
-[公式パンフレット](https://www.h.k.u-tokyo.ac.jp/pdf/2025pamphHEES.pdf)に基づき、
-〒277-8563 千葉県柏市柏の葉5-1-5 東京大学柏キャンパス 新領域環境棟と記載しています。
 
 ## 内容を更新する
 
-日本語と英語をセットで更新します。
+サイト本文は日本語と英語をセットで更新します。実験の操作画面とブラウザ実行コードの説明は日本語です。
 
 ```html
-<span class="ja">日本語の文</span><span class="en">English text</span>
+<span class="ja">日本語の文</span><span class="en" lang="en">English text</span>
 ```
 
-HTML の `lang` 属性に応じて片方だけ表示します。JavaScript が無効でも日本語の本文が読めます。
-言語の優先順位は `?lang=ja` / `?lang=en` → 前回の選択 → ブラウザ言語 → 日本語です
-（日本語以外のブラウザは英語表示）。無効な言語値は無視します。
-ページ名・説明は各HTMLの title / description の `data-ja` / `data-en` に定義します。
-内部リンクには `data-page-link="research.html"` のようにパスを指定すると、言語選択を引き継ぎます。
-ホームの `#research` / `#education` / `#skills` は本文の各節を指します。
-旧 `education.html` / `skills.html` は言語を引き継いでホームの対応する節へ転送します。
-JavaScript無効時も、転送先へのリンクを表示します。
+言語の優先順位は `?lang=ja` / `?lang=en` → 前回の選択 → ブラウザ言語 → 日本語です。内部リンクには `data-page-link` を付けて、言語選択を引き継ぎます。ページ名・説明は各HTMLの `data-ja` / `data-en` に定義します。
 
-### 次に追加・確認する情報
+ABMの解説は一覧と各実験ページの両方にあるため、更新時は両方を合わせます。Python元コードはトグルを開いたときに `data-source-url` が指すファイルを読み込みます。モデル本体をHTMLへ複製する必要はありません。元の実行スクリプトは出典のスナップショットを保持し、ブラウザのシミュレーションからは実行しません。
 
-未記入の記入例は公開ページから外しています。以下は編集者向けのメモです。
-業績がないと断定しているわけではありません。
-
-- [ ] 予測の習熟度（FQ）の厳密な指標・定義を確定する（現状は一般的な言葉で紹介）
-- [x] 公開用メールアドレス: yuitokyouni@g.ecc.u-tokyo.ac.jp（本人指定）
-- [ ] 卒業論文の要旨、公開できる PDF または資料へのリンク
-- [ ] 論文・プレプリント: 著者、題名、掲載先、年、DOI / URL、公開状況
-- [ ] 学会発表: 発表者、題名、学会名、年月、口頭 / ポスター、資料リンク
-- [ ] 受賞・助成: 年、名称、授与機関
-- [ ] 英語の習熟度など、具体的に掲載したい補足
-- [ ] 学位・コース・研究室の英語表記の最終確認
-
-学歴の期間は日英とも年だけで表記します。
-
-論文などを追加するときは、`main` 内に次の構造を追加します。
-見出しだけの空欄は公開せず、少なくとも 1 件の情報を記入してから追加してください。
-
-```html
-<section id="publications" class="content-section" aria-labelledby="publications-heading">
-  <h2 id="publications-heading"><span class="ja">論文</span><span class="en">Publications</span></h2>
-  <ol>
-    <!-- 実際の著者・題名・掲載先・年・リンクを li に記入する -->
-  </ol>
-</section>
-```
-
-新しい節にナビゲーションを追加する場合は、日英の表示と実在する節の ID を合わせてください。
-卒業論文はホームの「研究経験」に置いています。
-
-## ローカルで開く
-
-プロフィールは `index.html` を直接開けます。ABM実験ではPythonファイルを読み込むためHTTPサーバーを使います:
-
-```sh
-python3 -m http.server 8765 --bind 127.0.0.1
-```
-
-`http://127.0.0.1:8765/` を開きます。日本語は `?lang=ja`、英語は `?lang=en` で指定できます。
-
-## 更新の進め方
-
-ユーザーの指定により、通常の更新ではPRを作らず、既定ブランチへ直接コミット・プッシュします。
-プッシュ前に最新のリモート状態と表示を確認します。GitHub Pagesの公開元は既定ブランチとは別設定です。
-
-## GitHub Pages
-
-リポジトリの Settings → Pages で Source を「Deploy from a branch」に設定し、
-公開するブランチと `/ (root)` を選択します。既存の設定がある場合はその設定を維持してください。
+通常の更新は、既存の運用に従いPRを作らず、既定ブランチ `codex/multipage-research-profile` へコミット・プッシュします。プッシュ前に最新のリモート状態と表示を確認します。

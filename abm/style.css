@@ -8,13 +8,29 @@
 .abm-steps li + li { margin-top: .4rem; }
 .abm-callout, .language-note { padding: 1rem 1.25rem; border-left: 3px solid var(--link); background: color-mix(in srgb, var(--link) 6%, var(--paper)); }
 .abm-models { padding: 0; margin: 0; list-style: none; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 2rem 3rem; }
-.abm-models li { border-top: 1px solid var(--line); padding-top: 1.25rem; }
+.abm-models > li { min-width: 0; border-top: 1px solid var(--line); padding-top: 1.25rem; }
 .abm-models h3 { font-size: 1.2rem; font-weight: 500; margin-bottom: .75rem; }
 .abm-models p { margin-bottom: .7rem; }
 .abm-models .entry-meta, .abm-observe, .abm-demo-link { font-size: .875rem; }
 .abm-observe { color: var(--muted); }
 .abm-demo-link .muted { margin-left: .5rem; }
 .abm-page code { font-size: .85em; overflow-wrap: anywhere; }
+.abm-explanation { min-width: 0; margin-block: 1rem; border: 1px solid var(--line); font-size: .875rem; }
+.abm-explanation > summary { padding: .75rem 1rem; cursor: pointer; color: var(--link); font-weight: 600; }
+.abm-explanation[open] > summary { border-bottom: 1px solid var(--line); }
+.abm-explanation-body { padding: 1rem; }
+.abm-explanation h3, .abm-explanation h4 { font-size: 1rem; margin-block: 0 .5rem; }
+.abm-explanation h3:not(:first-child), .abm-explanation h4:not(:first-child) { margin-top: 1.25rem; }
+.abm-explanation ol { padding-left: 1.5rem; }
+.abm-explanation ol li + li { margin-top: .5rem; }
+.abm-source { min-width: 0; margin-top: .75rem; border-top: 1px solid var(--line); }
+.abm-source > summary { padding-block: .65rem; cursor: pointer; }
+.abm-source p { font-size: .8rem; }
+.abm-source pre { max-width: 100%; max-height: 30rem; overflow: auto; padding: 1rem; background: color-mix(in srgb, var(--ink) 4%, var(--paper)); border: 1px solid var(--line); line-height: 1.65; tab-size: 4; }
+.abm-source pre code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .8rem; white-space: pre; overflow-wrap: normal; }
+.abm-explanation summary:focus-visible, .abm-source pre:focus-visible, .source-retry:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+.source-status { color: var(--muted); }
+.source-retry { padding: .4rem .75rem; font: inherit; color: var(--link); background: var(--paper); border: 1px solid var(--line); cursor: pointer; }
 .legacy-demo .page { border-bottom: 1px solid var(--line); padding-bottom: 1rem; margin-bottom: 1.5rem; }
 .legacy-demo h1 { font-size: clamp(1.5rem,3vw,2rem); }
 .legacy-demo .paper { margin-top: .65rem; color: var(--muted); font-size: .85rem; }
@@ -67,7 +83,9 @@
 @media print {
   .abm-page { padding-block: 0; }
   .abm-models { display: block; }
-  .abm-models li { break-inside: avoid; margin-bottom: 1rem; }
+  .abm-models > li { break-inside: avoid; margin-bottom: 1rem; }
+  .abm-source pre { max-height: none; white-space: pre-wrap; }
+  .abm-source pre code { white-space: pre-wrap; overflow-wrap: anywhere; }
   .abm-demo-link, .abm-breadcrumb, .legacy-demo .controls, .legacy-demo .language-note, .legacy-demo .banner, .legacy-demo .crumb { display: none; }
   .legacy-demo .layout { display: block; }
   .legacy-demo .plot { break-inside: avoid; }

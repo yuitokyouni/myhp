@@ -10,6 +10,7 @@
 <script src="../assets/main.js?v=20261004-profile" defer></script>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script src="assets/source-viewer.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en" lang="en">Skip to content</span></a>
@@ -33,6 +34,43 @@
   <p class="language-note"><span class="ja">この実験の操作画面は日本語です。結果は実行後に表示されます。</span><span class="en" lang="en">This experiment is presented in Japanese. Results appear after you run it.</span></p><noscript><p class="banner warn">シミュレーションには JavaScript が必要です。説明はそのまま読めます。</p></noscript>
 <div id="proto-banner" class="banner warn hidden"></div>
   <div class="banner info">最初の実行では実行環境を読み込みます。計算量を増やすと、実行中に画面の反応が遅くなることがあります。まず小さい設定で試してください。</div>
+
+  <details class="abm-explanation" id="guide-yh002">
+  <summary><span class="ja">基本の考え方・Python元コード</span><span class="en" lang="en">Basic ideas and Python source</span></summary>
+  <div class="abm-explanation-body">
+    <h3><span class="ja">基本の考え方</span><span class="en" lang="en">Basic idea</span></h3>
+    <p><span class="ja">楽観・悲観のトレンド派（chartist）と、一定の基準価格を見る価値派（fundamentalist）が共存します。他の参加者の意見や収益の比較によって所属を変え、参加者の構成と価格が互いに影響します。</span><span class="en" lang="en">Optimistic and pessimistic chartists coexist with fundamentalists who use a fixed fundamental value. Agents switch groups based on opinions and relative profitability, coupling market composition and prices.</span></p>
+    <h3><span class="ja">計算の流れ</span><span class="en" lang="en">Simulation flow</span></h3>
+    <ol><li><span class="ja">価格のトレンドとトレンド派内の意見の偏りから、楽観・悲観の切り替え確率を計算します。</span><span class="en" lang="en">Use the price trend and chartist sentiment to calculate opinion-switching probabilities.</span></li><li><span class="ja">収益の比較と基準価格からのずれを使い、トレンド派と価値派の切り替えを計算します。</span><span class="en" lang="en">Use relative profitability and deviation from the fundamental value to switch between chartists and fundamentalists.</span></li><li><span class="ja">各集団の注文と雑音 μ を合計し、β に応じた確率で価格を上下に一単位動かします。内部100ステップごとに結果を記録します。</span><span class="en" lang="en">Aggregate group demand and noise μ, then move the price by one tick with probabilities controlled by β. Record results every 100 internal steps.</span></li></ol>
+    <h3><span class="ja">パラメータと見るポイント</span><span class="en" lang="en">Parameters and observations</span></h3>
+    <p><span class="ja">z はトレンド派の割合です。z の時系列とリターン・絶対リターンの自己相関を比べます。σμ は注文の雑音の大きさで、基準価格そのものを動かす設定ではありません。</span><span class="en" lang="en">z is the chartist share. Compare its time series with return and absolute-return autocorrelations. σμ controls demand noise; the fundamental value stays fixed.</span></p>
+    <h3><span class="ja">Python元コード</span><span class="en" lang="en">Python source</span></h3>
+    <p><span class="ja">モデル本体はこのブラウザ実験が読み込むファイルです。「元の実行入口」は元リポジトリの main 関数または実行ブロックを含むスクリプトで、全文を変更せず掲載しています。</span><span class="en" lang="en">The model core files are used by this browser experiment. Original entry scripts are reproduced in full, unchanged, including their main function or execution block.</span></p>
+    <p><span class="ja">元の実行入口を手元で実行するには、元リポジトリの補助ファイルと依存パッケージも必要です。掲載コードの設定や記述は元の実験時点のもので、ブラウザ版の設定・実行結果とは異なります。</span><span class="en" lang="en">Running the original entry scripts also requires helper files and dependencies from the source repository. Their settings and comments describe the original experiments and differ from the browser settings and results.</span></p>
+    <details class="abm-source" data-source-url="models/YH002/model.py">
+  <summary><span class="ja">モデル本体（Params・step・simulate）</span><span class="en" lang="en">Model core (Params, step, simulate)</span> · <code>YH002/model.py</code></summary>
+  <p><a href="models/YH002/model.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH002/model.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+<details class="abm-source" data-source-url="models/YH002/run_simulation.py">
+  <summary><span class="ja">元の実行入口（main）</span><span class="en" lang="en">Original entry point (main)</span> · <code>YH002/run_simulation.py</code></summary>
+  <p><a href="models/YH002/run_simulation.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH002/run_simulation.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+    <details class="abm-source" data-source-driver hidden>
+  <summary>このブラウザ実験のPython実行コード（DRIVER）</summary>
+  <p>操作画面のパラメータを受け取り、モデル本体を呼んで、グラフ用の統計を計算するコードです。<code>PARAMS_JSON</code> と <code>sf</code> はブラウザの実行環境から渡されます。</p>
+  <pre tabindex="0" aria-label="ブラウザ実験のPython実行コード"><code></code></pre>
+</details>
+    <p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info/experiments/YH002"><span class="ja">元リポジトリのコード・参考文献</span><span class="en" lang="en">Original code and references</span></a> · <a href="LICENSE">MIT license</a></p>
+  </div>
+</details>
 
   <div class="layout">
     <aside class="panel controls">
@@ -62,7 +100,7 @@ const C = SGP.COLORS;
 const SPECS = [
   { id: "steps", label: "integer steps", type: "range", min: 200, max: 2500, step: 100, value: 800, hint: "×100 内部ステップ。大きいほど重い" },
   { id: "beta", label: "価格反応 β", type: "range", min: 1, max: 12, step: 0.5, value: 6 },
-  { id: "sigma_mu", label: "ファンダ雑音 σ_μ", type: "range", min: 0.0, max: 0.2, step: 0.01, value: 0.05 },
+  { id: "sigma_mu", label: "注文の雑音 σ_μ", type: "range", min: 0.0, max: 0.2, step: 0.01, value: 0.05 },
   { id: "nu1", label: "chartist 遷移率 ν1", type: "range", min: 1, max: 6, step: 0.5, value: 3 },
   { id: "seed", label: "seed", type: "number", min: 0, max: 99999, step: 1, value: 42 },
 ];

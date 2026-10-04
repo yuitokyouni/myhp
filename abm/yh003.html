@@ -10,6 +10,7 @@
 <script src="../assets/main.js?v=20261004-profile" defer></script>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script src="assets/source-viewer.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en" lang="en">Skip to content</span></a>
@@ -33,6 +34,43 @@
   <p class="language-note"><span class="ja">この実験の操作画面は日本語です。結果は実行後に表示されます。</span><span class="en" lang="en">This experiment is presented in Japanese. Results appear after you run it.</span></p><noscript><p class="banner warn">シミュレーションには JavaScript が必要です。説明はそのまま読めます。</p></noscript>
 <div id="proto-banner" class="banner warn hidden"></div>
   <div class="banner info">最初の実行では実行環境を読み込みます。計算量を増やすと、実行中に画面の反応が遅くなることがあります。まず小さい設定で試してください。</div>
+
+  <details class="abm-explanation" id="guide-yh003">
+  <summary><span class="ja">基本の考え方・Python元コード</span><span class="en" lang="en">Basic ideas and Python source</span></summary>
+  <div class="abm-explanation-body">
+    <h3><span class="ja">基本の考え方</span><span class="en" lang="en">Basic idea</span></h3>
+    <p><span class="ja">全員が二つの選択肢から一つを選び、人数の少ない側が勝つゲームです。各人は過去の勝ち側から次の選択を予測しますが、皆が同じ予測をすると混雑して負けます。</span><span class="en" lang="en">Agents choose between two options, and the minority wins. Each predicts its next choice from past winners, but a shared prediction can become crowded and lose.</span></p>
+    <h3><span class="ja">計算の流れ</span><span class="en" lang="en">Simulation flow</span></h3>
+    <ol><li><span class="ja">各人にS個の戦略を配ります。各戦略は、過去M期の勝ち履歴（2^M通り）を ±1 の行動に対応づけます。</span><span class="en" lang="en">Give each agent S strategies mapping the past M winning outcomes (2^M histories) to an action of ±1.</span></li><li><span class="ja">仮想スコアが最も高い戦略を選びます。同点は乱数で決め、全員の行動から少数側を求めます。</span><span class="en" lang="en">Choose the strategy with the highest virtual score, break ties randomly, and determine the minority from all actions.</span></li><li><span class="ja">使わなかった戦略も含め、勝ち側を予測した戦略に得点を加えます。勝ち側を履歴に追加して次の期へ進みます。</span><span class="en" lang="en">Reward all strategies that predicted the winning side, including unused strategies, then append the winner to the history.</span></li></ol>
+    <h3><span class="ja">パラメータと見るポイント</span><span class="en" lang="en">Parameters and observations</span></h3>
+    <p><span class="ja">α = 2^M/N と、注文の偏り 2A−N の分散をNで割った σ²/N を見ます。独立なランダム選択の参照値は1です。価格を生成するモデルではありません。</span><span class="en" lang="en">Inspect α = 2^M/N and σ²/N, the variance of the imbalance 2A−N divided by N. Independent random choices give a reference of 1. This model does not generate prices.</span></p>
+    <h3><span class="ja">Python元コード</span><span class="en" lang="en">Python source</span></h3>
+    <p><span class="ja">モデル本体はこのブラウザ実験が読み込むファイルです。「元の実行入口」は元リポジトリの main 関数または実行ブロックを含むスクリプトで、全文を変更せず掲載しています。</span><span class="en" lang="en">The model core files are used by this browser experiment. Original entry scripts are reproduced in full, unchanged, including their main function or execution block.</span></p>
+    <p><span class="ja">元の実行入口を手元で実行するには、元リポジトリの補助ファイルと依存パッケージも必要です。掲載コードの設定や記述は元の実験時点のもので、ブラウザ版の設定・実行結果とは異なります。</span><span class="en" lang="en">Running the original entry scripts also requires helper files and dependencies from the source repository. Their settings and comments describe the original experiments and differ from the browser settings and results.</span></p>
+    <details class="abm-source" data-source-url="models/YH003/model.py">
+  <summary><span class="ja">モデル本体（戦略選択・学習）</span><span class="en" lang="en">Model core (strategy selection and learning)</span> · <code>YH003/model.py</code></summary>
+  <p><a href="models/YH003/model.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH003/model.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+<details class="abm-source" data-source-url="models/YH003/run_simulation.py">
+  <summary><span class="ja">元の実行入口（main）</span><span class="en" lang="en">Original entry point (main)</span> · <code>YH003/run_simulation.py</code></summary>
+  <p><a href="models/YH003/run_simulation.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH003/run_simulation.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+    <details class="abm-source" data-source-driver hidden>
+  <summary>このブラウザ実験のPython実行コード（DRIVER）</summary>
+  <p>操作画面のパラメータを受け取り、モデル本体を呼んで、グラフ用の統計を計算するコードです。<code>PARAMS_JSON</code> と <code>sf</code> はブラウザの実行環境から渡されます。</p>
+  <pre tabindex="0" aria-label="ブラウザ実験のPython実行コード"><code></code></pre>
+</details>
+    <p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info/experiments/YH003"><span class="ja">元リポジトリのコード・参考文献</span><span class="en" lang="en">Original code and references</span></a> · <a href="LICENSE">MIT license</a></p>
+  </div>
+</details>
 
   <div class="layout">
     <aside class="panel controls">

@@ -10,6 +10,7 @@
 <script src="../assets/main.js?v=20261004-profile" defer></script>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script src="assets/source-viewer.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en" lang="en">Skip to content</span></a>
@@ -33,6 +34,51 @@
   <p class="language-note"><span class="ja">この実験の操作画面は日本語です。結果は実行後に表示されます。</span><span class="en" lang="en">This experiment is presented in Japanese. Results appear after you run it.</span></p><noscript><p class="banner warn">シミュレーションには JavaScript が必要です。説明はそのまま読めます。</p></noscript>
 <div id="proto-banner" class="banner warn hidden"></div>
   <div class="banner info">最初の実行では実行環境を読み込みます。計算量を増やすと、実行中に画面の反応が遅くなることがあります。まず小さい設定で試してください。</div>
+
+  <details class="abm-explanation" id="guide-yh005_1">
+  <summary><span class="ja">基本の考え方・Python元コード</span><span class="en" lang="en">Basic ideas and Python source</span></summary>
+  <div class="abm-explanation-body">
+    <h3><span class="ja">基本の考え方</span><span class="en" lang="en">Basic idea</span></h3>
+    <p><span class="ja">YH005と同じSpeculation Gameを使う分析ページです。独立した第六のモデルではなく、同じシミュレーションの内部を五つの図で読み解きます。</span><span class="en" lang="en">This analysis page uses the same Speculation Game as YH005. It is a sixth experiment rather than an independent model, examining one simulation through five plots.</span></p>
+    <h3><span class="ja">計算の流れ</span><span class="en" lang="en">Simulation flow</span></h3>
+    <ol><li><span class="ja">YH005の simulate を一回実行し、価格・最終の富・往復取引・各期の行動と注文量を受け取ります。</span><span class="en" lang="en">Run YH005 simulate once to obtain prices, final wealth, round trips, actions, and order sizes.</span></li><li><span class="ja">富の分布、保有期間の分布、保有期間と認知上の損益 ΔG の関係を描きます。</span><span class="en" lang="en">Plot the wealth distribution, holding-period distribution, and the relationship between holding period and perceived gain ΔG.</span></li><li><span class="ja">売買・保有・待機の割合と、注文サイズ別の時系列を描きます。戦略を変えるのではなく、観察する量を変えています。</span><span class="en" lang="en">Plot action shares and order-size time series. The observations change while the trading model stays the same.</span></li></ol>
+    <h3><span class="ja">パラメータと見るポイント</span><span class="en" lang="en">Parameters and observations</span></h3>
+    <p><span class="ja">図同士を照らし合わせ、大きい注文や長い保有がどのような状態から生まれたかを考えます。ブラウザ版の人数・期間は元の図生成スクリプトより小さいため、結果の数値はそのまま一致しません。</span><span class="en" lang="en">Compare plots to explore the states behind large orders and long holding periods. The browser uses smaller populations and shorter runs than the original figure script, so numerical results need not match.</span></p>
+    <h3><span class="ja">Python元コード</span><span class="en" lang="en">Python source</span></h3>
+    <p><span class="ja">モデル本体はこのブラウザ実験が読み込むファイルです。「元の実行入口」は元リポジトリの main 関数または実行ブロックを含むスクリプトで、全文を変更せず掲載しています。</span><span class="en" lang="en">The model core files are used by this browser experiment. Original entry scripts are reproduced in full, unchanged, including their main function or execution block.</span></p>
+    <p><span class="ja">元の実行入口を手元で実行するには、元リポジトリの補助ファイルと依存パッケージも必要です。掲載コードの設定や記述は元の実験時点のもので、ブラウザ版の設定・実行結果とは異なります。</span><span class="en" lang="en">Running the original entry scripts also requires helper files and dependencies from the source repository. Their settings and comments describe the original experiments and differ from the browser settings and results.</span></p>
+    <details class="abm-source" data-source-url="models/YH005_1/phase1_mechanism_figures.py">
+  <summary><span class="ja">元の図生成入口（main）</span><span class="en" lang="en">Original figure entry point (main)</span> · <code>YH005_1/phase1_mechanism_figures.py</code></summary>
+  <p><a href="models/YH005_1/phase1_mechanism_figures.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH005_1/phase1_mechanism_figures.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+<details class="abm-source" data-source-url="models/YH005/simulate.py">
+  <summary><span class="ja">共通モデル本体（YH005）</span><span class="en" lang="en">Shared model core (YH005)</span> · <code>YH005/simulate.py</code></summary>
+  <p><a href="models/YH005/simulate.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH005/simulate.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+<details class="abm-source" data-source-url="models/YH005/history.py">
+  <summary><span class="ja">共通の認知・履歴</span><span class="en" lang="en">Shared perception and history</span> · <code>YH005/history.py</code></summary>
+  <p><a href="models/YH005/history.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH005/history.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+    <details class="abm-source" data-source-driver hidden>
+  <summary>このブラウザ実験のPython実行コード（DRIVER）</summary>
+  <p>操作画面のパラメータを受け取り、モデル本体を呼んで、グラフ用の統計を計算するコードです。<code>PARAMS_JSON</code> と <code>sf</code> はブラウザの実行環境から渡されます。</p>
+  <pre tabindex="0" aria-label="ブラウザ実験のPython実行コード"><code></code></pre>
+</details>
+    <p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info/experiments/YH005_1"><span class="ja">元リポジトリのコード・参考文献</span><span class="en" lang="en">Original code and references</span></a> · <a href="LICENSE">MIT license</a></p>
+  </div>
+</details>
 
   <div class="layout">
     <aside class="panel controls">

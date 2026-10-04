@@ -10,6 +10,7 @@
 <script src="../assets/main.js?v=20261004-profile" defer></script>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script src="assets/source-viewer.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en" lang="en">Skip to content</span></a>
@@ -33,6 +34,51 @@
   <p class="language-note"><span class="ja">この実験の操作画面は日本語です。結果は実行後に表示されます。</span><span class="en" lang="en">This experiment is presented in Japanese. Results appear after you run it.</span></p><noscript><p class="banner warn">シミュレーションには JavaScript が必要です。説明はそのまま読めます。</p></noscript>
 <div id="proto-banner" class="banner warn hidden"></div>
   <div class="banner info">最初の実行では実行環境を読み込みます。計算量を増やすと、実行中に画面の反応が遅くなることがあります。まず小さい設定で試してください。</div>
+
+  <details class="abm-explanation" id="guide-yh005">
+  <summary><span class="ja">基本の考え方・Python元コード</span><span class="en" lang="en">Basic ideas and Python source</span></summary>
+  <div class="abm-explanation-body">
+    <h3><span class="ja">基本の考え方</span><span class="en" lang="en">Basic idea</span></h3>
+    <p><span class="ja">価格変化を五段階に粗く認識し、その履歴に基づいて売買します。一回の売買ではなく、ポジションを開いて閉じる「往復取引」で戦略を評価します。富が注文量に影響し、その注文が次の価格を動かします。</span><span class="en" lang="en">Agents perceive price changes in five coarse categories and trade on that history. Strategies are evaluated over round trips from opening to closing a position. Wealth affects order size, and those orders move the next price.</span></p>
+    <h3><span class="ja">計算の流れ</span><span class="en" lang="en">Simulation flow</span></h3>
+    <ol><li><span class="ja">過去M期の五段階履歴（5^M通り）から、使用中の戦略が買い・売り・待機を指示します。</span><span class="en" lang="en">The active strategy maps the last M five-category observations (5^M histories) to buy, sell, or wait.</span></li><li><span class="ja">ポジションがなければ注文量を富/Bの整数部分にして新規取引し、逆方向の指示なら同じ数量で決済します。注文の合計 D から Δp = D/N を計算します。</span><span class="en" lang="en">Open a position with quantity floor(wealth/B), or close with the same quantity on an opposite recommendation. Aggregate orders D determine Δp = D/N.</span></li><li><span class="ja">Δp を閾値Cで −2〜+2 に量子化し、認知価格と履歴を更新します。決済時に認知上の損益を得点と富に反映し、戦略を見直します。</span><span class="en" lang="en">Quantize Δp into −2 through +2 using threshold C, then update cognitive price and history. On closing, use perceived gains to update scores and wealth and review the active strategy.</span></li></ol>
+    <h3><span class="ja">パラメータと見るポイント</span><span class="en" lang="en">Parameters and observations</span></h3>
+    <p><span class="ja">baseline と、履歴をランダム化する Null A、意思決定をランダム化する Null B を比べます。認知価格と実際の価格系列は異なり、この実装の富は認知上の損益で更新されます。</span><span class="en" lang="en">Compare baseline with randomized history (Null A) and randomized decisions (Null B). Cognitive price differs from the market price series; wealth in this implementation is updated from perceived gains.</span></p>
+    <h3><span class="ja">Python元コード</span><span class="en" lang="en">Python source</span></h3>
+    <p><span class="ja">モデル本体はこのブラウザ実験が読み込むファイルです。「元の実行入口」は元リポジトリの main 関数または実行ブロックを含むスクリプトで、全文を変更せず掲載しています。</span><span class="en" lang="en">The model core files are used by this browser experiment. Original entry scripts are reproduced in full, unchanged, including their main function or execution block.</span></p>
+    <p><span class="ja">元の実行入口を手元で実行するには、元リポジトリの補助ファイルと依存パッケージも必要です。掲載コードの設定や記述は元の実験時点のもので、ブラウザ版の設定・実行結果とは異なります。</span><span class="en" lang="en">Running the original entry scripts also requires helper files and dependencies from the source repository. Their settings and comments describe the original experiments and differ from the browser settings and results.</span></p>
+    <details class="abm-source" data-source-url="models/YH005/simulate.py">
+  <summary><span class="ja">モデル本体（simulate）</span><span class="en" lang="en">Model core (simulate)</span> · <code>YH005/simulate.py</code></summary>
+  <p><a href="models/YH005/simulate.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH005/simulate.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+<details class="abm-source" data-source-url="models/YH005/history.py">
+  <summary><span class="ja">五段階の認知・履歴</span><span class="en" lang="en">Five-category perception and history</span> · <code>YH005/history.py</code></summary>
+  <p><a href="models/YH005/history.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH005/history.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+<details class="abm-source" data-source-url="models/YH005/run_simulation.py">
+  <summary><span class="ja">元の実行入口（main）</span><span class="en" lang="en">Original entry point (main)</span> · <code>YH005/run_simulation.py</code></summary>
+  <p><a href="models/YH005/run_simulation.py"><span class="ja">ファイルを開く</span><span class="en" lang="en">Open file</span></a> · <a href="models/YH005/run_simulation.py" download><span class="ja">ダウンロード</span><span class="en" lang="en">Download</span></a></p>
+  <p class="source-status" role="status" aria-live="polite" hidden></p>
+  <button class="source-retry" type="button" hidden><span class="ja">再試行</span><span class="en" lang="en">Retry</span></button>
+  <noscript><p><span class="ja">ページ内のコード表示にはJavaScriptが必要です。上のリンクから元ファイルを読めます。</span><span class="en" lang="en">Inline source display requires JavaScript. Read the file using the link above.</span></p></noscript>
+  <pre tabindex="0" aria-label="Python元コード" data-label-ja="Python元コード" data-label-en="Python source" hidden><code></code></pre>
+</details>
+    <details class="abm-source" data-source-driver hidden>
+  <summary>このブラウザ実験のPython実行コード（DRIVER）</summary>
+  <p>操作画面のパラメータを受け取り、モデル本体を呼んで、グラフ用の統計を計算するコードです。<code>PARAMS_JSON</code> と <code>sf</code> はブラウザの実行環境から渡されます。</p>
+  <pre tabindex="0" aria-label="ブラウザ実験のPython実行コード"><code></code></pre>
+</details>
+    <p><a href="https://github.com/yuitokyouni/financial-abm-lab/tree/34492e2b954e38f96f81f1f251434fe232f3548a/imported/speculation-game-info/experiments/YH005"><span class="ja">元リポジトリのコード・参考文献</span><span class="en" lang="en">Original code and references</span></a> · <a href="LICENSE">MIT license</a></p>
+  </div>
+</details>
 
   <div class="layout">
     <aside class="panel controls">

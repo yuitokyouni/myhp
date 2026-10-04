@@ -1,7 +1,12 @@
 # Financial ABM learning notes
 
-Static migration of six browser experiments from the author's earlier learning
-site. Open `abm/index.html` through an HTTP server or GitHub Pages.
+Six browser experiments from the author's earlier learning site, with
+expandable explanations and Python source viewers.
+
+Public URL: https://yuitokyouni.github.io/myhp/abm/
+
+YH005_1 is an analysis view of the YH005 Speculation Game, rather than a
+separate sixth model.
 
 ## Provenance
 
@@ -25,6 +30,12 @@ JavaScript reimplementation. Their Git blob IDs match the source:
 | `models/YH005/history.py` | `bf67f8d35a35389ee0ccaa7151b259c0eb16c559` |
 | `models/YH005/simulate.py` | `92501695ad12f05cb2d6e3144e48d1d230642161` |
 | `assets/sf.py` | `6419fe09c5b94398bd409c4c6e975138683f0414` |
+| `models/YH001/run_simulation.py` | `8377495ff15635c645016417c0a76df8754b2bc6` |
+| `models/YH002/run_simulation.py` | `07eda6396ad9db6922c0bbf98055ffb16f3acf65` |
+| `models/YH003/run_simulation.py` | `9da65c6980e79780903744fbdb094bee56c0ece6` |
+| `models/YH004/run_simulation.py` | `edba4188f20f946d0435553a5f386c3cf53c9ef4` |
+| `models/YH005/run_simulation.py` | `d2eca3cd16890400eaa6f679a25e67de19af938c` |
+| `models/YH005_1/phase1_mechanism_figures.py` | `233e26ec02c0d7d05f5bb48978be3cadec675533` |
 
 `LICENSE` preserves the imported project's MIT license verbatim, including its
 original `Copyright (c) 2026 [YOUR NAME]` placeholder. No new author identity is
@@ -48,9 +59,27 @@ literature; no publisher figures or paper PDFs are copied.
   as `—`. Non-finite Python JSON values become `null` for Plotly rather than
   causing JSON parsing errors. Plot colors support the site's light/dark colors.
 
+## Explanations and source code
+
+Each catalogue entry and experiment page has a native HTML `details` toggle
+covering the model's basic idea, simulation steps, parameters, and observations.
+The source viewer loads full local Python files on demand, independently of
+Pyodide and Plotly, with file/download links and a retry control for failed loads.
+Explanations and source controls are bilingual; experiment controls remain Japanese.
+
+The original entry scripts above are unchanged reading copies, not the browser
+runtime. Running them requires the upstream helper files and dependencies, which
+are not all bundled here. Their settings and comments describe the source
+experiments, not newly computed browser results. Links point to the fixed source
+snapshot. The imported MIT license also covers these files.
+
+Experiment pages additionally display their actual embedded Python `DRIVER`,
+which reads UI parameters, calls the local model and computes plotting data.
+The viewer reads that existing string, rather than maintaining another copy.
+
 ## Runtime and limitations
 
-- **No backend required.** These files run on ordinary GitHub Pages over HTTPS.
+- **No backend required.** The public site serves static files over HTTPS.
   The browser runs Python through Pyodide and renders plots with Plotly.
 - External runtime downloads are pinned to Pyodide **0.26.4** from
   `cdn.jsdelivr.net` and Plotly **2.35.2** from `cdn.plot.ly`. Internet access and
@@ -64,9 +93,8 @@ literature; no publisher figures or paper PDFs are copied.
   the source research experiments. Short runs, finite samples, and random seeds
   affect estimated tail indices, correlations, and other statistics. This is a
   learning interface, not a newly validated replication or market forecast.
-- `file://` cannot fetch model files. For local use, run
-  `python3 -m http.server 8000` at the myHP repository root and open
-  `http://localhost:8000/abm/`.
+- Use the public URL above to open the experiments. Python source viewing and
+  simulation both fetch model files over HTTP/HTTPS.
 - YH006 and YH006_1 were intentionally excluded: the original pages are viewers
   for precomputed results with PAMS/Parquet dependencies. Their research
   artifacts, parameter sweeps, and claims were not copied.
@@ -82,3 +110,11 @@ the actual embedded Python drivers, including the three scan/sweep drivers,
 were executed with small representative parameters. Source-model byte hashes
 were checked against the GitHub blobs above. Browser QA is performed alongside
 the parent site's integration checks.
+
+For the explanation/source-viewer update, all six model self-tests passed again.
+Chromium checks covered the catalogue and all six experiment pages: displayed
+files match the bundled sources, drivers match the actual embedded strings,
+source fetching is lazy and shared files are cached, failed fetches can be
+retried, and language selection is preserved in links. Source viewing also
+worked with simulation CDNs blocked. Keyboard toggles, a 390px dark-mode viewport,
+and explanation/file-link fallbacks with JavaScript disabled were checked.
